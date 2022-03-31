@@ -88,7 +88,7 @@ public class H_ConstraintsPerspective {
 			}
 		});
 		
-		//qui
+		
 		_view.getConstraintsList().addListSelectionListener(new ListSelectionListener() {
 		      public void valueChanged(ListSelectionEvent e) {
 		    	  
