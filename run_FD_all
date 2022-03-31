@@ -1,0 +1,27 @@
+#!/bin/bash
+cd fast-downward/src
+date1=$(date +%s%N | cut -b1-13)
+searchtime=0
+traces=0
+for f in Conformance_Checking/domain*.pddl
+do
+traces=$(($traces+1))
+f2="${f/domain/problem}"
+translate/translate.py $f $f2 < output.sas >/dev/null
+preprocess/preprocess < output.sas >/dev/null
+prima=$(date +%s%N | cut -b1-13)
+#echo $traces
+./search/downward --heuristic "hff=ff()"  --heuristic "hcea=cea()" --search "astar(blind())" < output >/dev/null
+dopo=$(date +%s%N | cut -b1-13)
+searchtime=$(($searchtime+$dopo-$prima))
+#echo $traces
+done
+date2=$(date +%s%N | cut -b1-13)
+diff=$(($date2-$date1))
+transtime=$(($diff-$searchtime))
+#echo $date1
+#echo $date2
+echo "the duration is: $diff ms. for $traces traces"
+echo "the search time is: $searchtime ms."
+echo "the translation time is: $transtime ms."
+#>/dev/null

@@ -1,0 +1,3 @@
+#!/bin/bash
+cd fast-downward/src
+preprocess/preprocess < output.sas

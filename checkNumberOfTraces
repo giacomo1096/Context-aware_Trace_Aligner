@@ -1,0 +1,8 @@
+#!/bin/bash
+cd fast-downward/src
+traces=0
+for f in Conformance_Checking/domain*.pddl
+do
+traces=$(($traces+1))
+done
+echo "the number of traces is: $traces"

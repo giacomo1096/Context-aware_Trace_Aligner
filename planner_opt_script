@@ -1,0 +1,3 @@
+#!/bin/bash
+cd fast-downward/src
+./search/downward --heuristic "hff=ff()" --heuristic "hcea=cea()" --search "astar(blind())" < output

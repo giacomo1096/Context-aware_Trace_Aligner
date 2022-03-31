@@ -1,0 +1,13 @@
+#!/bin/bash
+cd seq-opt-symba-2
+date1=$(date +%s%N | cut -b1-13)
+searchtime=0
+trace="$1"
+domain="Conformance_Checking/domain$trace.pddl"
+problem="Conformance_Checking/problem$trace.pddl"
+./plan $domain $problem out.txt
+date2=$(date +%s%N | cut -b1-13)
+diff=$(($date2-$date1))
+#echo $date1
+#echo $date2
+echo "the duration for trace #$trace is: $diff ms."
