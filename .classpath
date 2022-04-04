@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/DeclareVisualizer.jar"/>
+	<classpathentry kind="lib" path="lib/guava-16.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/java-cup-11b.jar"/>
+	<classpathentry kind="lib" path="lib/javailp-1.2a.jar"/>
+	<classpathentry kind="lib" path="lib/lpsolve55j.jar"/>
+	<classpathentry kind="lib" path="lib/LTL2Automaton.jar"/>
+	<classpathentry kind="lib" path="lib/OpenXES-XStream.jar"/>
+	<classpathentry kind="lib" path="lib/OpenXES.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

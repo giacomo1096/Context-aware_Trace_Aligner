@@ -88,7 +88,6 @@ public class H_ConstraintsPerspective {
 			}
 		});
 		
-		
 		_view.getConstraintsList().addListSelectionListener(new ListSelectionListener() {
 		      public void valueChanged(ListSelectionEvent e) {
 		    	  
@@ -1002,6 +1001,164 @@ public class H_ConstraintsPerspective {
 	         		
 	         		
 	         		/////// **** COST AUTOMATA **** //////////////////////////// 
+	         		
+	         		//Generate the cost automata file .dot
+	         		Utilities.emptyFolder("cost_automata");
+
+	         		StringBuffer cost_automaton_buffer = new StringBuffer();
+	         		
+	         		//TODO parametri da ricevere in input
+	         		String cost_activity = "c"; 
+	         		String cost_activity_2 = "d"; 
+	         		String cost_automaton_selected = "cost_automaton_3"; 
+	         		//
+	         		
+	         		if(cost_automaton_selected.equals("cost_automaton_1")) {
+	         			cost_automaton_buffer.append("digraph {\n");
+	         			cost_automaton_buffer.append("	fake0 [style=invisible]\n");
+	         			cost_automaton_buffer.append("	0 [root=true shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	1 [shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	2 [shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	fake0 -> 0 [style=bold]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	0 -> 0 [label="+activity+"]\n");
+	         				cost_automaton_buffer.append("	0 -> 0 [label=del_"+activity+"_0]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	0 -> 0 [label=!add_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	0 -> 1 [label=add_" +cost_activity+"_0]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	1 -> 0 [label="+activity+"]\n");
+	         				cost_automaton_buffer.append("	1 -> 0 [label=del_"+activity+"_0]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	1 -> 0 [label=!add_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	1 -> 2 [label=add_" +cost_activity+"_0]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	2 -> 2 [label="+activity+"]\n");
+	         				cost_automaton_buffer.append("	2 -> 2 [label=del_"+activity+"_0]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	2 -> 2 [label=!add_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	2 -> 2 [label=add_" +cost_activity+"_2]\n");
+	         			
+	         			cost_automaton_buffer.append("}");
+	         			
+	         			Utilities.createFile("cost_automata/cost_automata_1.dot", cost_automaton_buffer);
+      	  	        
+	         		}
+	         		
+	         		if(cost_automaton_selected.equals("cost_automaton_2")) {
+	         			cost_automaton_buffer.append("digraph {\n");
+	         			cost_automaton_buffer.append("	fake0 [style=invisible]\n");
+	         			cost_automaton_buffer.append("	0 [root=true shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	1 [shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	2 [shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	3 [shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	fake0 -> 0 [style=bold]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	0 -> 0 [label="+activity+"]\n");
+	         				cost_automaton_buffer.append("	0 -> 0 [label=add_"+activity+"_0]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	0 -> 0 [label=!del_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	0 -> 1 [label=del_" +cost_activity+"_0]\n");
+	         			cost_automaton_buffer.append("	1 -> 0 [label=" +cost_activity_2+"]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	1 -> 1 [label=add_"+activity+"_0]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	1 -> 1 [label=!del_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	1 -> 1 [label=!"+cost_activity_2+"]\n");
+	         			cost_automaton_buffer.append("	1 -> 2 [label=del_" +cost_activity+"_2]\n");
+	         			cost_automaton_buffer.append("	2 -> 0 [label=" +cost_activity_2+"]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	2 -> 2 [label=add_"+activity+"_0]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	2 -> 2 [label=!del_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	2 -> 2 [label=!"+cost_activity_2+"]\n");
+	         			cost_automaton_buffer.append("	2 -> 3 [label=del_" +cost_activity+"_3]\n");
+	         			cost_automaton_buffer.append("	3 -> 0 [label=" +cost_activity_2+"]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	3 -> 3 [label=add_"+activity+"_0]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	3 -> 3 [label=!del_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	3 -> 3 [label=!"+cost_activity_2+"]\n");
+	         			cost_automaton_buffer.append("	3 -> 3 [label=del_" +cost_activity+"_3]\n");
+	         			
+	         			cost_automaton_buffer.append("}");
+	         			
+	         			Utilities.createFile("cost_automata/cost_automata_2.dot", cost_automaton_buffer);
+	         			
+	         		}
+	         		
+	         		if(cost_automaton_selected.equals("cost_automaton_3")) {
+	         			cost_automaton_buffer.append("digraph {\n");
+	         			cost_automaton_buffer.append("	fake0 [style=invisible]\n");
+	         			cost_automaton_buffer.append("	0 [root=true shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	1 [shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	fake0 -> 0 [style=bold]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	0 -> 0 [label=del_"+activity+"_0]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	0 -> 0 [label=!add_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	0 -> 0 [label=add_" +cost_activity+"_2]\n");
+	         			cost_automaton_buffer.append("	0 -> 0 [label=!" +cost_activity_2+"]\n");
+	         			cost_automaton_buffer.append("	0 -> 1 [label=" +cost_activity_2+"]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	1 -> 1 [label=del_"+activity+"_0]\n");	
+	         				cost_automaton_buffer.append("	1 -> 1 [label="+activity+"]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	1 -> 1 [label=!add_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	1 -> 1 [label=add_" +cost_activity+"_4]\n");
+	         			
+	         			cost_automaton_buffer.append("}");
+	         			
+	         			Utilities.createFile("cost_automata/cost_automata_3.dot", cost_automaton_buffer);
+	         			
+	         		}
+	         		if(cost_automaton_selected.equals("cost_automaton_4")) { 
+	         			cost_automaton_buffer.append("digraph {\n");
+	         			cost_automaton_buffer.append("	fake0 [style=invisible]\n");
+	         			cost_automaton_buffer.append("	0 [root=true shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	1 [shape=doublecircle]\n");
+	         			cost_automaton_buffer.append("	fake0 -> 0 [style=bold]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	0 -> 0 [label="+activity+"]\n");
+	         				cost_automaton_buffer.append("	0 -> 0 [label=add_"+activity+"_0]\n");
+	         			}
+	         			cost_automaton_buffer.append("	0 -> 0 [label=!del_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	0 -> 1 [label=del_"+cost_activity+"_0]\n");
+	         			
+	         			for(int i=0; i<Constants.getActivitiesRepository_vector().size(); i++) {
+	         				String activity = Constants.getActivitiesRepository_vector().get(i);
+	         				cost_automaton_buffer.append("	1 -> 1 [label="+activity+"]\n");	
+	         				cost_automaton_buffer.append("	1 -> 1 [label=add_"+activity+"_0]\n");	
+	         			}
+	         			cost_automaton_buffer.append("	1 -> 1 [label=!del_"+cost_activity+"]\n");
+	         			cost_automaton_buffer.append("	1 -> 1 [label=del_"+cost_activity+"_3]\n");
+	         			
+	         			cost_automaton_buffer.append("}");
+	         			
+	         			Utilities.createFile("cost_automata/cost_automata_4.dot", cost_automaton_buffer);
+	         			
+	         		}
+
 	         		
 	         		Vector<Automaton> cost_automata_vector = new Vector<Automaton>();
 	         		
