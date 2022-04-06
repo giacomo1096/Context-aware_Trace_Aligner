@@ -1002,6 +1002,7 @@ public class H_ConstraintsPerspective {
 	         		
 	         		/////// **** COST AUTOMATA **** //////////////////////////// 
 	         		
+	         		
 	         		//Generate the cost automata file .dot
 	         		Utilities.emptyFolder("cost_automata");
 
