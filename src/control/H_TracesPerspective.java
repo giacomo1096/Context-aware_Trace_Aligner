@@ -268,17 +268,6 @@ public class H_TracesPerspective {
                     			Constants.getAlphabetOfTheTraces_vector().addElement(symbol_of_the_alphabet);
             		}     		
     					
-            			/*
-            			System.out.println("************************");
-            			System.out.println(trace.getTraceID());
-            			System.out.println(trace.getTraceName());
-            			System.out.println(trace.getTraceAlphabet_vector());
-    					System.out.println(trace.getOriginalTraceContent_vector());
-    					System.out.println("STRING " + trace.getOriginalTraceContent_string());
-    					System.out.println(trace.getTraceContentWithActivitiesInstances_vector());
-    					System.out.println(trace.getNumberOfActivityInstances_Hashtable());
-    					System.out.println(trace.getAssociationsToActivityInstances_Hashtable());
-    					*/
             		}
             		
             		//System.out.println("Complete Alphabet: " + Constants.getActivitiesRepository_vector());
@@ -307,12 +296,7 @@ public class H_TracesPerspective {
             	
             	Constants.getMenuPerspective().getImportMenu().setEnabled(true);
             	Constants.getMenuPerspective().getImportDeclareMenuItem().setEnabled(true);
-         		/////////////////// ModelLearning ////////////////////
-         		//////////////////////////////////////////////////////
-             	Constants.getMenuPerspective().getImportModelLearningAutomatonMenuItem().setEnabled(true);
-         		//////////////////////////////////////////////////////
-         		//////////////////////////////////////////////////////
-             	
+             	Constants.getMenuPerspective().getImportDOTAutomatonMenuItem().setEnabled(true);            	
              	
             }
         });
@@ -331,12 +315,12 @@ public class H_TracesPerspective {
 	
 	private void updateTrace(Trace trace) {
 		
-		trace.setAssociationsToActivityInstances_Hashtable(new Hashtable<String,String>());
-		trace.setNumberOfActivityInstances_Hashtable(new Hashtable<String,Integer>());
+		trace.setTraceAlphabet_vector(new Vector<String>());	
 		trace.setOriginalTraceContent_vector(new Vector<String>());
-		trace.setOriginalTraceContentString(new String());
-		trace.setTraceAlphabet_vector(new Vector<String>());				
-		trace.setTraceContentWithActivitiesInstances_vector(new Vector<String>());
+		trace.setOriginalTraceContentString(new String());		
+		trace.setTraceContentWithActivitiesInstances_vector(new Vector<String>());		
+		trace.setNumberOfActivityInstances_Hashtable(new Hashtable<String,Integer>());
+		trace.setAssociationsToActivityInstances_Hashtable(new Hashtable<String,String>());
 		
 		String trace_content = new String();
 		
@@ -400,6 +384,7 @@ public class H_TracesPerspective {
   			
    		 }
 		trace.setOriginalTraceContentString(trace_content.substring(0, trace_content.length()-1));
+
 	}
 
 }

@@ -61,6 +61,7 @@ public class H_PlannerPerspective {
             }
         });
 
+		/*
 		_view.getCostCheckBox().addActionListener(new ActionListener()
 		{
 		    public void actionPerformed(ActionEvent ae)
@@ -77,6 +78,7 @@ public class H_PlannerPerspective {
 		    	}
 		    }
 		});
+		*/
 		
 		_view.getNumber_of_Traces_checkBox().addActionListener(new ActionListener()
 		{
@@ -149,7 +151,8 @@ public class H_PlannerPerspective {
 	            	
 	            	//
 	            	// Case in which we assign a cost to add/remove activities to/from the trace
-	            	//           		   				
+	            	//   
+	            	/*
 	            	if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 	            		
 	            		//UPDATE the ADDING/REMOVAL cost associated to the last activity updated
@@ -168,6 +171,7 @@ public class H_PlannerPerspective {
 		    			 }	
 	    				//System.out.println(Constants.get_activities_cost_vector());
 	        		 }
+	        		 */
 	    			//////////////////////////////////////////////////////////////////////////
 	            	
 	            	//
@@ -306,7 +310,7 @@ public class H_PlannerPerspective {
 	         	    	String[] split_file_name = child.getName().split("_");
 	         	    	String[] split_file_name_1 = split_file_name[1].split(".txt");
 	         	    			
-	         	    	Trace trace = Utilities.getTracebyId("Trace#"+split_file_name_1[0]);
+	         	    	Trace trace = Utilities.getTraceById("Trace#"+split_file_name_1[0]);
 	         	    	
 	         	    	Vector<String> plan_vector = new Vector<String>();
             	    	//int trace_number = k + 1;
@@ -435,6 +439,7 @@ public class H_PlannerPerspective {
             }
         });
 		*/
+		/*
 		_view.getActivitiesComboBox().addItemListener(new ItemListener()
 		{
 			 public void itemStateChanged(ItemEvent event)
@@ -478,7 +483,7 @@ public class H_PlannerPerspective {
 
 			}
 		});
-
+		*/
 	}
 	
 }

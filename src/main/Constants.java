@@ -13,6 +13,7 @@ import view.AlphabetPerspective;
 import view.MenuPerspective;
 import view.PlannerPerspective;
 import view.ConstraintsPerspective;
+import view.CostPerspective;
 import view.TracesPerspective;
 
 public class Constants {
@@ -27,6 +28,9 @@ public class Constants {
 	private static ConstraintsPerspective constraintsPanel;
 	
 	// -> This component is re-instantiated every time a transition from the ConstraintsPerspective panel to the PlannerPerspective panel takes place.
+	private static CostPerspective costPanel;
+	
+	// -> This component is re-instantiated every time a transition from the ConstraintsPerspective panel to the PlannerPerspective panel takes place.
 	private static PlannerPerspective plannerPanel;
 		
 	//
@@ -35,9 +39,9 @@ public class Constants {
 	// Conversely, the union of activities appearing in the traces and in the constraints is ALWAYS included in this repository.
 	//
 	// -> This vector is re-initialized and populated during the transition from the AlphabetPerspective panel to the TracesPerspective Panel (after pressing the button "Next Step"). 
-	// -> This vector is re-initialized when a new log is created from scratch (i.e., when the 'New' Item of the menu is pressed).
-	// -> This vector is re-initialized and populated when an existing XES file is imported into the software (i.e., when the 'Open' Item of the menu is pressed).
-	// -> This vector can be potentially augmented when a new Declare model is imported, if its constraints refer to activities not contained in the vector.
+	// -> This vector is re-initialized when the 'New' item of the menu 'File' is pressed.
+	// -> This vector is re-initialized and automatically populated when an existing XES file is imported into the software (i.e., when the 'Open' Item of the menu is pressed).
+	// -> This vector can be potentially augmented when a new Declare model () or DOT automaton () is imported, if its constraints refer to activities not contained in the vector.
 	//
 	private static Vector<String> activities_repository_vector = new Vector<String>();	
 		
@@ -277,6 +281,12 @@ public class Constants {
 	}
 	public static void setMenuPerspective(MenuPerspective menu) {
 		menuPerspective = menu;
+	}
+	public static CostPerspective getCostPerspective() {
+		return costPanel;
+	}
+	public static void setCostPerspective(CostPerspective cst_persp) {
+		costPanel = cst_persp;
 	}
 	public static PlannerPerspective getPlannerPerspective() {
 		return plannerPanel;

@@ -57,17 +57,16 @@ public class PlannerPerspective extends JDialog
 	private JCheckBox trace_duplicated_checkBox;
 	
 	
-	private JCheckBox costCheckBox;
-
-	private JComboBox<String> activitiesComboBox;
-	private JTextField addingCostField;
-	private JTextField removalCostField;
+	//private JCheckBox costCheckBox;
+	//private JComboBox<String> activitiesComboBox;
+	//private JTextField addingCostField;
+	//private JTextField removalCostField;
 	
 	private JLabel activitiesRepoLabel;
 	private JLabel traceLabel;
 	private JLabel constraintsListLabel;
 	private JLabel plannerOptionsLabel;
-	private JLabel actionsCostLabel;
+	//private JLabel actionsCostLabel;
 	private JLabel blankLabel;
 	private JLabel blankLabel_2;
 	private JLabel blankLabel_3;
@@ -101,8 +100,8 @@ public class PlannerPerspective extends JDialog
 		constraintsListLabel.setPreferredSize(new Dimension(390,25));
 		plannerOptionsLabel = new JLabel("<html><u>Planner Search Algorithm</u></html>");
 		plannerOptionsLabel.setPreferredSize(new Dimension(390,25));
-		actionsCostLabel = new JLabel("<html><u>Cost to add/remove activities in/from the trace</u></html>");
-		actionsCostLabel.setPreferredSize(new Dimension(350,25));
+		//actionsCostLabel = new JLabel("<html><u>Cost to add/remove activities in/from the trace</u></html>");
+		//actionsCostLabel.setPreferredSize(new Dimension(350,25));
 		trace_duplicated_label= new JLabel("<html><u>Discard duplicated traces</u></html>");
 		trace_duplicated_label.setPreferredSize(new Dimension(350,25));	
 		number_of_traces_label= new JLabel("<html><u>Select an interval of traces to analyze</u></html>");
@@ -147,7 +146,7 @@ public class PlannerPerspective extends JDialog
 		SymBAoptimalCheckBox.setPreferredSize(new Dimension(30,15));
 		
 
-		if(!Constants.getPDDL_encoding().equalsIgnoreCase("AAAI17") || Constants.getMenuPerspective().getDisjunctiveGoalMenuItem().isSelected()) {
+		if(!Constants.getPDDL_encoding().equalsIgnoreCase("AAAI17")) {
 			System.out.println("TEST");
 			SymBAoptimalLabel.setEnabled(false);
 			SymBAoptimalCheckBox.setEnabled(false);
@@ -202,6 +201,7 @@ public class PlannerPerspective extends JDialog
 		
 		//////////////////////////////////////////////////
 		
+		/*
 		costCheckBox = new JCheckBox();
 		costCheckBox.setSelected(true);
 		costCheckBox.setPreferredSize(new Dimension(30,15));		
@@ -222,6 +222,7 @@ public class PlannerPerspective extends JDialog
 		removalCostField = new JTextField("Removal Cost");
 		removalCostField.setPreferredSize(new Dimension(90,25));
 		removalCostField.setEnabled(true);
+		*/
 		
 		blankLabel = new JLabel();
 		blankLabel.setPreferredSize(new Dimension(30,30));
@@ -246,8 +247,8 @@ public class PlannerPerspective extends JDialog
 	    this.add(plannerOptionsLabel);	    
 	    //this.add(FDlazyGreedyLabel);
 	    //this.add(FDlazyGreedyCheckBox);	
-	    //this.add(FDoptimalLabel);
-	    //this.add(FDoptimalCheckBox);
+	    this.add(FDoptimalLabel);
+	    this.add(FDoptimalCheckBox);
 	    this.add(SymBAoptimalLabel);
 	    this.add(SymBAoptimalCheckBox);
 	    //this.add(LPGlabel);
@@ -266,12 +267,12 @@ public class PlannerPerspective extends JDialog
 	    this.add(lenght_of_traces_ComboBox_FROM);
 	    this.add(lenght_of_traces_ComboBox_TO);   
 	    this.add(blankLabel_3); 
-	    this.add(actionsCostLabel);	
-	    this.add(costCheckBox);	
-	    this.add(activitiesComboBox);
-	    this.add(addingCostField);
-	    this.add(removalCostField);
-	    this.add(blankLabel_2); 
+	    //this.add(actionsCostLabel);	
+	    //this.add(costCheckBox);	
+	    //this.add(activitiesComboBox);
+	    //this.add(addingCostField);
+	    //this.add(removalCostField);
+	    //this.add(blankLabel_2); 
 	    this.add(previousStepButton); 
 	    this.add(blankLabel); 
 	    this.add(generatePDDLButton); 
@@ -284,7 +285,7 @@ public class PlannerPerspective extends JDialog
 
 
 		this.setTitle("STEP 4: Launching the Planner");
-	    this.setSize(400, 680);
+	    this.setSize(400, 600);
 	    this.setResizable(false);
 	    	   	   
 	}
@@ -351,11 +352,12 @@ public class PlannerPerspective extends JDialog
 	//}
 	
 
-
+	/*
 	public JCheckBox getCostCheckBox() {
 		return costCheckBox;
 	}
-
+	*/
+	
 	public JComboBox<String> getNumber_of_traces_ComboBox_FROM() {
 		return number_of_traces_ComboBox_FROM;
 	}
@@ -368,6 +370,7 @@ public class PlannerPerspective extends JDialog
 		return number_of_traces_checkBox;
 	}
 	
+	/*
 	public JComboBox<String> getActivitiesComboBox() {
 		return activitiesComboBox;
 	}
@@ -391,6 +394,8 @@ public class PlannerPerspective extends JDialog
 	public void setRemovalCostField(JTextField removalCostField) {
 		this.removalCostField = removalCostField;
 	}
+	*/
+	
 	public JComboBox<String> getLenght_of_traces_ComboBox_FROM() {
 		return lenght_of_traces_ComboBox_FROM;
 	}

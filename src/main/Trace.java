@@ -40,7 +40,7 @@ public class Trace {
 															// choice(c,d) --> d is a "missing" activity).
 	 														// --- This value is STABLE after the transition between the ConstraintsPerspective panel and the PlannerPerspective panel.	
 	
-	private Vector<String> trace_alphabet_with_missing_activities_of_the_constraints_vector; // Alphabet of the activities of the trace and of the constrints.
+	private Vector<String> trace_alphabet_with_missing_activities_of_the_constraints_vector; // Alphabet of the activities of the trace and of the constraints.
 																							 // For example, if the content of the trace is <a,c,e> and there is a constraint 
 																							 // choice(c,d) (therefore, d is a "missing" activity), then this vector will contain a,c,d,e.
 																							 // --- This value is STABLE after the transition between the ConstraintsPerspective panel and the PlannerPerspective panel.

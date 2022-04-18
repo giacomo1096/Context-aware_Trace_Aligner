@@ -64,7 +64,9 @@ public class H_AlphabetPerspective {
             		JOptionPane.showMessageDialog(null, "Please use only lower space characters for the activity name!", "ATTENTION!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("images/info_icon.png"));            	
             	else if(_view.getActivityField().getText().charAt(0) >= '0' && _view.getActivityField().getText().charAt(0) <= '9')           	
             		JOptionPane.showMessageDialog(null, "It is not allowed to use an Integer as the first character of the activity name!", "ATTENTION!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("images/info_icon.png"));
-		       	else {
+            	else if(!_view.getActivityField().getText().matches("[a-z0-9_]*"))
+                		JOptionPane.showMessageDialog(null, "Only special symbols underscore \"_\" sign are allowed but no other special characters!", "ATTENTION!", JOptionPane.INFORMATION_MESSAGE, new ImageIcon("images/info_icon.png"));
+            	else {
             		
             		boolean activity_name_already_exists = false;
             		

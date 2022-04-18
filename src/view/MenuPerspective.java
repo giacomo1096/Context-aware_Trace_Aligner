@@ -1,6 +1,5 @@
 package view;
 
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,23 +15,10 @@ public class MenuPerspective extends JMenuBar{
 	private JMenuItem newMenuItem;
 	private JMenuItem openXESMenuItem;
 	private JMenuItem importDeclareMenuItem;
-	private JMenuItem importLTLFormulaMenuItem;
+	private JMenuItem importDOTAutomatonMenuItem;
 	private JMenu importMenu;
-	
-	/////////////////// ModelLearning ////////////////////
-	//////////////////////////////////////////////////////
-	private JMenuItem importModelLearningAutomatonMenuItem;
-	//////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////
-	
-	
 	private JMenuItem exitMenuItem;
 	
-	private JMenu AAAI17EncodingMenu;
-	private JCheckBoxMenuItem sinkStatesMenuItem;
-	private JCheckBoxMenuItem disjunctiveGoalMenuItem;
-	private JCheckBoxMenuItem productAutomatonMenuItem;
-
 	protected H_MenuPerspective _handler;
 	
 	public MenuPerspective(){
@@ -44,34 +30,19 @@ public class MenuPerspective extends JMenuBar{
 	private void initComponent() {
 		
 		fileMenu = new JMenu("File");
-		AAAI17EncodingMenu = new JMenu("AAAI-17 Encoding");
 		
 	    newMenuItem = new JMenuItem("New ");	  
 	    openXESMenuItem = new JMenuItem("Open XES file ");
 	    importDeclareMenuItem  = new JMenuItem("Import Declare model ");
-	    importLTLFormulaMenuItem  = new JMenuItem("Import LTL formula ");
-	    //saveMenuItem = new JMenuItem("Save ");
+		importDOTAutomatonMenuItem  = new JMenuItem("Import Automaton");
 		importMenu = new JMenu("Import ");
-	    
-	    /////////////////// ModelLearning ////////////////////
-		//////////////////////////////////////////////////////
-		importModelLearningAutomatonMenuItem  = new JMenuItem("Import Automaton");
-		//////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////
-		
 	    
 	    newMenuItem.setEnabled(true);
 	    openXESMenuItem.setEnabled(true);
-	    importDeclareMenuItem.setEnabled(false);
-	    //saveMenuItem.setEnabled(false);
-	    importMenu.setEnabled(false);
 	    
-		/////////////////// ModelLearning ////////////////////
-		//////////////////////////////////////////////////////
-		importModelLearningAutomatonMenuItem.setEnabled(false);
-		//////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////	    
-		
+	    importDeclareMenuItem.setEnabled(false);
+	    importDOTAutomatonMenuItem.setEnabled(false);
+	    importMenu.setEnabled(false);
 	    
 	    exitMenuItem = new JMenuItem("Exit ");
 	       
@@ -79,33 +50,9 @@ public class MenuPerspective extends JMenuBar{
 	    fileMenu.add(openXESMenuItem);
 	    fileMenu.add(importMenu);
 	    importMenu.add(importDeclareMenuItem);
-	    
-		/////////////////// ModelLearning ////////////////////
-		//////////////////////////////////////////////////////
-	    importMenu.add(importModelLearningAutomatonMenuItem);
-		//////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////	 
-	    
-	    importMenu.add(importLTLFormulaMenuItem);
-	    
-		
+	    importMenu.add(importDOTAutomatonMenuItem);		
 	    fileMenu.addSeparator();
 	    fileMenu.add(exitMenuItem);
-	    
-	    ///////////////////////////////////////////////////////
-	    
-	    sinkStatesMenuItem = new JCheckBoxMenuItem("Remove transitions to a target sink state");
-	    disjunctiveGoalMenuItem = new JCheckBoxMenuItem("Allow disjunctive goals in the planning problem");
-	    productAutomatonMenuItem = new JCheckBoxMenuItem("Use a product automaton to represent Declare/LTL constraints");
-	    
-	    disjunctiveGoalMenuItem.setSelected(false);
-	    sinkStatesMenuItem.setSelected(true);
-	    
-	    AAAI17EncodingMenu.add(sinkStatesMenuItem);
-	    AAAI17EncodingMenu.add(disjunctiveGoalMenuItem);
-	    
-	    
-	    ///////////////////////////////////////////////////////
 	    
 	    this.add(fileMenu);    
 	}
@@ -138,28 +85,14 @@ public class MenuPerspective extends JMenuBar{
 		this.importDeclareMenuItem = importDeclareMenuItem;
 	}
 
-	/////////////////// ModelLearning ////////////////////
-	//////////////////////////////////////////////////////   
-	public JMenuItem getImportModelLearningAutomatonMenuItem() {
-		return importModelLearningAutomatonMenuItem;
+	public JMenuItem getImportDOTAutomatonMenuItem() {
+		return importDOTAutomatonMenuItem;
 	}
 
-	public void setImportModelLearningAutomatonMenuItem(JMenuItem importModelLearningAutomatonMenuItem) {
-		this.importModelLearningAutomatonMenuItem = importModelLearningAutomatonMenuItem;
-	}
-	//////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////	
-    
-	public JMenuItem getImportLTLFormulaMenuItem() {
-		return importLTLFormulaMenuItem;
+	public void setImportDOTAutomatonMenuItem(JMenuItem importDOTAutomatonMenuItem) {
+		this.importDOTAutomatonMenuItem = importDOTAutomatonMenuItem;
 	}
 
-	public void setImportLTLFormulaMenuItem(JMenuItem importLTLFormulaMenuItem) {
-		this.importLTLFormulaMenuItem = importLTLFormulaMenuItem;
-	}
-	
-
-	
 	public JMenuItem getExitMenuItem() {
 		return exitMenuItem;
 	}
@@ -181,33 +114,8 @@ public class MenuPerspective extends JMenuBar{
 		return openXESMenuItem;
 	}
 
-	public JCheckBoxMenuItem getSinkStatesMenuItem() {
-		return sinkStatesMenuItem;
-	}
-
-	public JCheckBoxMenuItem getProductAutomatonMenuItem() {
-		return productAutomatonMenuItem;
-	}
-
 	public void setOpenXESMenuItem(JMenuItem openXESMenuItem) {
 		this.openXESMenuItem = openXESMenuItem;
 	}
 
-	public void setSinkStatesMenuItem(JCheckBoxMenuItem sinkStatesMenuItem) {
-		this.sinkStatesMenuItem = sinkStatesMenuItem;
-	}
-
-	public void setProductAutomatonMenuItem(JCheckBoxMenuItem productAutomatonMenuItem) {
-		this.productAutomatonMenuItem = productAutomatonMenuItem;
-	}
-
-	public JCheckBoxMenuItem getDisjunctiveGoalMenuItem() {
-		return disjunctiveGoalMenuItem;
-	}
-
-	public void setDisjunctiveGoalMenuItem(JCheckBoxMenuItem disjunctiveGoalMenuItem) {
-		this.disjunctiveGoalMenuItem = disjunctiveGoalMenuItem;
-	}
-
-	
 }

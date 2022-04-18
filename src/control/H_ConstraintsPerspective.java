@@ -36,6 +36,7 @@ import main.Utilities;
 import view.LTLformulaPerspective;
 import view.PlannerPerspective;
 import view.ConstraintsPerspective;
+import view.CostPerspective;
 
 public class H_ConstraintsPerspective {
 	
@@ -326,11 +327,8 @@ public class H_ConstraintsPerspective {
         			 Constants.getConstraintsPerspective().setComponentEnabled(false);
                  	 Constants.getMenuPerspective().getImportDeclareMenuItem().setEnabled(false);
                  	Constants.getMenuPerspective().getImportMenu().setEnabled(false);
-             		/////////////////// ModelLearning ////////////////////
-             		//////////////////////////////////////////////////////
-                 	Constants.getMenuPerspective().getImportModelLearningAutomatonMenuItem().setEnabled(false);
-             		//////////////////////////////////////////////////////
-             		//////////////////////////////////////////////////////	
+                 	Constants.getMenuPerspective().getImportDOTAutomatonMenuItem().setEnabled(false);
+
             }
         });
 		
@@ -406,7 +404,7 @@ public class H_ConstraintsPerspective {
 		         	//
 		         	// LTL formula that records the conjunction of the single LTL formulas of any automaton (in order to build a product automaton).
 		         	//
-		         	String ltl_formula_for_product_automaton = new String();
+		         	//String ltl_formula_for_product_automaton = new String();
 		         			
 		         	//
 		         	// Create a local vector containing an automaton for any Declare/LTL constraint.
@@ -730,13 +728,14 @@ public class H_ConstraintsPerspective {
 		            		//
 	    	         		// Update the LTL formula that will be used to generate the product automaton.
 	    	         		//	
+							/*
 	       	         		if(Constants.getMenuPerspective().getProductAutomatonMenuItem().isSelected())  {
 			            		if(k+1 < Constants.getConstraintsPerspective().getConstraintsListModel().size())
 		    	         			ltl_formula_for_product_automaton += ltl_formula + " /\\ "; 
 		    	         		else
 		    	         			ltl_formula_for_product_automaton += ltl_formula; 
 		       	         	}
-       	         		
+       	         		    */
 	    	         		//
 	    	         		// Infer the automaton associated to the LTL formula under consideration.
 	    	         		//	
@@ -800,7 +799,6 @@ public class H_ConstraintsPerspective {
 	            		//
 	            		// 1A. Add to the global vector of sink states each non accepting state of the automaton (we are still not sure that it is a sink).
 	            		//
-    	         		if(Constants.getMenuPerspective().getSinkStatesMenuItem().isSelected())  {
 	    	         		Iterator<State> it_states =  automaton.iterator();
 	    	         		
 	    	         		while(it_states.hasNext()) {	        	            			 
@@ -808,7 +806,7 @@ public class H_ConstraintsPerspective {
 	    	            		 if(!s.isAccepting())
 	    	            			 Constants.getAutomataSinkNonAcceptingStates_vector().addElement(st_prefix + "_" + automaton_index + "_" + s.getId());
 	    	         		}
-    	         		}
+    	         		
     	         		///////////////////////////////////////////////////////////////
     	         		
     	         		//
@@ -838,10 +836,9 @@ public class H_ConstraintsPerspective {
         	            		 // 2A. If the target state and the source state are different, we are sure that the source state is not a sink.
     	            			 // Therefore, we can remove it from the global vector of sink states.
         	            		 //
-	         	         		 if(Constants.getMenuPerspective().getSinkStatesMenuItem().isSelected())  {
 	    	            			 if(Constants.getAutomataSinkNonAcceptingStates_vector().contains(st_prefix + "_" + automaton_index + "_" + tr_source_state_id))
 	    	            				 Constants.getAutomataSinkNonAcceptingStates_vector().removeElement(st_prefix + "_" + automaton_index + "_" + tr_source_state_id);
-		         	         	 }
+		         	         	
 	         	         		 
 	            				 //	        	            	  			
     	            			 // If the transition is relevant, we identify its source state, its target state and its label.
@@ -943,23 +940,10 @@ public class H_ConstraintsPerspective {
 	         		if(automaton_accepting_states_vector.size() > 1) {
 	            			
 	         			//
-	         			// If the planner used to synhesize the alignment IS ABLE to manage disjunctive goal conditions, 
-	         			// we can use the OR disjunction in the goal.
-	         			//
-	         			if(Constants.getMenuPerspective().getDisjunctiveGoalMenuItem().isSelected()) {
-    	         			Constants.getPDDLAutomataAcceptingStates_sb().append("(or \n");
-    	            			
-    	            		for(int yu=0;yu<automaton_accepting_states_vector.size();yu++) {	            				
-    	            			Constants.getAutomataAcceptingStates_vector().addElement(automaton_accepting_states_vector.elementAt(yu));
-    	            			Constants.getPDDLAutomataAcceptingStates_sb().append("(currstate " + automaton_accepting_states_vector.elementAt(yu) + ")\n");  
-    	            		}
-    	            		Constants.getPDDLAutomataAcceptingStates_sb().append(")\n");	        	            		
-	            		}
-	         			//
 	         			// If the planner used to synhesize the alignment IS NOT ABLE to manage disjunctive goal conditions, 
 	         			// we need to generate a single ABSTRACT accepting state for the automaton, used as target for any regular accepting state.
 	         			//
-	         			else {
+	         		
 	         				String aut_abstract_state = st_prefix + "_" + automaton_index + "_" + "abstract";
 	         				
 	         				Constants.getAutomataAbstractAcceptingStates_vector().addElement(aut_abstract_state);
@@ -974,7 +958,7 @@ public class H_ConstraintsPerspective {
 	         					if(!Constants.getAutomataAllStates_vector().contains(automaton_accepting_states_vector.elementAt(yu)))
 	         						Constants.getAutomataAllStates_vector().addElement(automaton_accepting_states_vector.elementAt(yu));	         					
     	            		}
-	         			}
+	         			
 	         		}
 	         		//
 	         		// SECOND CASE: The automaton has just one accepting state.
@@ -1002,10 +986,47 @@ public class H_ConstraintsPerspective {
 	         		
 	         		/////// **** COST AUTOMATA **** //////////////////////////// 
 	         		
-	         		
+	         		//
+        			// An instance of kind CostPerspective is created. Basically, it is a JDialog that allows the user to assign 
+            		// a fixed (deviation) cost to each activity, or to create specific cost models.
+	         		//
+	         		CostPerspective cst = new CostPerspective();
+             		Constants.setCostPerspective(cst); 
+             		
 	         		//Generate the cost automata file .dot
-	         		Utilities.emptyFolder("cost_automata");
+	         		//Utilities.emptyFolder("cost_automata");
 
+             		for (String cost_model : cst.getCostModelTextArea().getText().split("\\n")) {
+             			
+             			Automaton automaton = null;
+       	         		if(cost_model.startsWith("DFA{")) {
+       	         			
+	       	         		String DFA_file_path = cost_model.replace("DFA{", "");
+	       	         		DFA_file_path = DFA_file_path.replace("}", "");            				       	         			
+	       	         			
+	       	         		try {
+	       	         			automaton = Utilities.getAutomatonForModelLearning(DFA_file_path);
+	       	         			//automaton = Utilities.getAutomatonForModelLearningDot(DFA_file_path);
+							} catch (FileNotFoundException e) {
+								e.printStackTrace();
+							}
+       	         		
+	       	         		//DA QUI GESTIRE L'AUTOMA DEI COST MODEL
+	       	         		
+		       	         	 State s = automaton.getInit();
+		       	         	 Iterator<State> it = automaton.iterator();
+		       	         	 while (it.hasNext()) {
+			       	              State ss = it.next();
+			       	              Iterator<Transition> transitions = ss.getOutput().iterator();
+			       	              while (transitions.hasNext()) {
+			       	                  Transition t = transitions.next();
+			       	                  }
+		       	         	}
+       	         		}
+
+             		}
+             			           		
+             		/*
 	         		StringBuffer cost_automaton_buffer = new StringBuffer();
 	         		
 	         		//TODO parametri da ricevere in input
@@ -1168,10 +1189,10 @@ public class H_ConstraintsPerspective {
 	         		Automaton cost_automaton_2 = null;
 	         		Automaton cost_automaton_3 = null;
 	         		Automaton cost_automaton_4 = null;
-	         		String cost_automaton_file_path_1 = "/Users/giacomo/Desktop/cost_automata/cost_automaton_1.dot";
-	         		String cost_automaton_file_path_2 = "/Users/giacomo/Desktop/cost_automata/cost_automaton_2.dot";
-	         		String cost_automaton_file_path_3 = "/Users/giacomo/Desktop/cost_automata/cost_automaton_3.dot";
-	         		String cost_automaton_file_path_4 = "/Users/giacomo/Desktop/cost_automata/cost_automaton_4.dot";
+	         		String cost_automaton_file_path_1 = "cost_automata/cost_automaton_1.dot";
+	         		String cost_automaton_file_path_2 = "cost_automata/cost_automaton_2.dot";
+	         		String cost_automaton_file_path_3 = "cost_automata/cost_automaton_3.dot";
+	         		String cost_automaton_file_path_4 = "cost_automata/cost_automaton_4.dot";
 	         		
 	         		try {
    	         			cost_automaton_1 = Utilities.getAutomatonForModelLearning(cost_automaton_file_path_1);
@@ -1359,7 +1380,7 @@ public class H_ConstraintsPerspective {
          			//
          			Constants.setCostAutomatonRelevantTransitions_vector(cost_automaton_relevant_transitions_vector);
          			Constants.setCostAutomatonRelevantTransitions_map(cost_automaton_transitions_map);
-         			
+         			*/
                		/////// **** END COST AUTOMATA **** //////////////////////////// 
                		
 	         		
@@ -1368,6 +1389,7 @@ public class H_ConstraintsPerspective {
 	         			
 						if(Constants.getPDDL_encoding().equalsIgnoreCase("AAAI17")) {
 
+					        /*
 							if(Constants.getMenuPerspective().getProductAutomatonMenuItem().isSelected())  {
 								System.out.println("DENTRO prduct_automaton");
 								Automaton product_automaton = LTLFormula.generateAutomatonByLTLFormula(ltl_formula_for_product_automaton);
@@ -1376,7 +1398,7 @@ public class H_ConstraintsPerspective {
 	    	            		while(it2.hasNext()) {
 	    	            			// Transition t2 = (Transition) it2.next();
 	    	            			 
-	    	            			/*
+	    	            			
 	    	            			 System.out.print(t2.getSource());
 	    	            			 System.out.print(" --> ");
 	    	            			 System.out.print(t2.getPositiveLabel());
@@ -1390,10 +1412,10 @@ public class H_ConstraintsPerspective {
 	    	            			 if(t2.getSource().isAccepting()) System.out.print(t2.getSource() + " %% ");
 	    	            			 if(t2.getTarget().isAccepting()) System.out.print(t2.getTarget());
 	    	            			 System.out.println();
-	    	            			 */
+	    	            			 
 	    	            		}
-	    	            		
 							}
+							*/
 							
     	            		//
 							// Update the global vectors containing the automata and the relevant transitions.
@@ -1413,14 +1435,12 @@ public class H_ConstraintsPerspective {
 							//
 							// Remove the sink non-accepting states, if the option has been selected by the user
 							//
-							if(Constants.getMenuPerspective().getSinkStatesMenuItem().isSelected())  {
 								for(int as=0;as<Constants.getAutomataSinkNonAcceptingStates_vector().size();as++) {
 									Constants.getAutomataAllStates_vector().removeElement(Constants.getAutomataSinkNonAcceptingStates_vector().elementAt(as));
 									String all_states_string = Constants.getPDDLAutomataAllStates_sb().toString().replaceAll(Constants.getAutomataSinkNonAcceptingStates_vector().elementAt(as) + " - state\n", "");
 									StringBuffer sb = new StringBuffer(all_states_string);
 									Constants.setPDDLAutomataAllStates_sb(sb);
 								}
-							}
 													
 							/*
 							System.out.println(" -- ALL STATES -- " + Constants.getAutomataAllStates_vector());
@@ -1435,9 +1455,7 @@ public class H_ConstraintsPerspective {
 							System.out.println(" -- ABSTRACT ACCEPTING STATES -- " + Constants.getAutomataAbstractAcceptingStates_vector());
 							System.out.println(" -- SINK NON ACCEPTING STATES -- " + Constants.getAutomataSinkNonAcceptingStates_vector());
 							*/
-							///////////////////////////////////////////////////////////////
-							
-							if(!Constants.getMenuPerspective().getDisjunctiveGoalMenuItem().isSelected()) {
+
 
 								Constants.setCombinationOfAcceptingStates_vector(new Vector<CombinationOfAcceptingStates>());
 							
@@ -1456,7 +1474,7 @@ public class H_ConstraintsPerspective {
 								Object[] arr = Constants.getAutomataAcceptingStates_vector().toArray();
 								
 								Utilities.findCombinationsOfAcceptingStates(arr, k_value, 0, new String[k_value]);
-							}
+							
 							
 							////////////////////////////////////////////////////////////////////
 							
@@ -1741,7 +1759,7 @@ public class H_ConstraintsPerspective {
 	            		///////////////////////////////////
 	            		
 	             		_view.getConstraintComboBox().setSelectedIndex(0);
-	             		_view.setComponentEnabled(false);
+	             		_view.setComponentEnabled(false);       		
 	             		
 	             	 	ple.setModal(true);
 	             		ple.setVisible(true);

@@ -444,7 +444,7 @@ public class Utilities {
 	
 	
 	public static StringBuffer createPropositionalDomain(Trace trace) {
-		
+			
 		StringBuffer PDDL_domain_buffer = new StringBuffer();
 		
 		PDDL_domain_buffer.append("(define (domain Mining)\n");
@@ -455,11 +455,11 @@ public class Utilities {
 		PDDL_domain_buffer.append("(currstate ?s - state)\n");			
 		PDDL_domain_buffer.append(")\n\n");			
 		
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 			PDDL_domain_buffer.append("(:functions\n");	
 			PDDL_domain_buffer.append("(total-cost)\n");			
 			PDDL_domain_buffer.append(")\n\n");		
-		}
+		//}
 		
 		for(int i=0;i<Constants.getCombinationOfRelevantTransitions_vector().size();i++) {
 			
@@ -482,21 +482,18 @@ public class Utilities {
 				PDDL_domain_buffer.append(":precondition ");
 								
 				if(cot.getNumberOfConditionsInThePDDLPreconditions()>1) PDDL_domain_buffer.append("(and ");
-				
-				
+								
 				PDDL_domain_buffer.append(cot.getPDDL_preconditions());
 								
 				if(cot.getNumberOfConditionsInThePDDLPreconditions()>1) 
 					PDDL_domain_buffer.append(")\n");
-				
-
 				else 
 					PDDL_domain_buffer.append("\n");
 				
 				PDDL_domain_buffer.append(":effect (and ");
 				PDDL_domain_buffer.append(cot.getPDDL_effects());
 				
-				if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+				//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 					PDDL_domain_buffer.append(" (increase (total-cost) ");	
 										
 						for(int yu=0;yu<Constants.getActivitiesCost_vector().size();yu++) {
@@ -509,8 +506,8 @@ public class Utilities {
 								break;
 						}
 					}
-				}
-				else {PDDL_domain_buffer.append(")\n");}
+				//}
+				//else {PDDL_domain_buffer.append(")\n");}
 				
 				PDDL_domain_buffer.append(")\n\n");
 				
@@ -621,7 +618,9 @@ public class Utilities {
 						int j = k+1;
 						PDDL_domain_buffer.append("(not (currstate t" + k + ")) " + "(currstate t" + j + ") " );
 						PDDL_domain_buffer.append(cot.getPDDL_effects());
-						if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+						
+						//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+						
 							PDDL_domain_buffer.append(" (increase (total-cost) ");
 							
 							for(int yu=0;yu<Constants.getActivitiesCost_vector().size();yu++) {
@@ -635,8 +634,8 @@ public class Utilities {
 								}
 							}
 							
-						}
-						else {PDDL_domain_buffer.append(")\n");}
+						//}
+						//else {PDDL_domain_buffer.append(")\n");}
 						
 						PDDL_domain_buffer.append(") \n\n");
 					}
@@ -666,7 +665,6 @@ public class Utilities {
 				values.add(value);
 			}
 			
-
 			Object[] values_array = values.toArray();
 			
 			for(int l=0;l<values_array.length;l++) {
@@ -690,7 +688,9 @@ public class Utilities {
 			
 			PDDL_domain_buffer.append(":effect ");
 			PDDL_domain_buffer.append("(and (not (currstate t" + gk + ")) " + "(currstate t" + j + ") " );
-			if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+			
+			//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+				
 				PDDL_domain_buffer.append(" (increase (total-cost) ");
 				
 				for(int yu=0;yu<Constants.getActivitiesCost_vector().size();yu++) {
@@ -702,20 +702,13 @@ public class Utilities {
 					}
 				}
 				
-			}
-			else {PDDL_domain_buffer.append(") \n\n");}
+			//}
+			//else {PDDL_domain_buffer.append(") \n\n");}
 			
 			PDDL_domain_buffer.append(") \n\n");
 						
 		}
-					
-		
-		//
-		// If the planner used to synhesize the alignment IS NOT ABLE to manage disjunctive goal conditions, 
-		// we need to generate PDDL actions to reach the ABSTRACT accepting state of any automaton, that are used as target states 
-		// for any regular accepting state.
-		//
-		if(!Constants.getMenuPerspective().getDisjunctiveGoalMenuItem().isSelected()) {
+
 					
 			StringBuffer PDDL_temp_effects_sb = new StringBuffer(":effect (and ");
 			
@@ -723,7 +716,7 @@ public class Utilities {
 			// Vector used to record the ID of the automata related to the abstract states.
 			//
 			Vector<String> automata_id_of_abstract_states_vector = new Vector<String>(); 
-			
+						
 			for(int op=0;op<Constants.getAutomataAbstractAcceptingStates_vector().size();op++) {
 				String abstract_state_id = Constants.getAutomataAbstractAcceptingStates_vector().elementAt(op);
 				
@@ -736,15 +729,15 @@ public class Utilities {
 				automata_id_of_abstract_states_vector.addElement(automaton_id);
 			}
 					
-			
 			//
 			// For any combination of accepting states, we generate a PDDL action to reach all the abstract states of the automata. 
 			// 
 			//
+			if(Constants.getCombinationOfAcceptingStates_vector().size() > 1) {
 			for(int jk=0;jk<Constants.getCombinationOfAcceptingStates_vector().size();jk++) {
 				
 				StringBuffer PDDL_temp_effects_2_sb = new StringBuffer();
-				
+						
 				CombinationOfAcceptingStates coas = Constants.getCombinationOfAcceptingStates_vector().elementAt(jk);
 				
 				PDDL_domain_buffer.append("(:action goto" + "-abstract_states-" + coas.getId() +  "\n");
@@ -764,8 +757,7 @@ public class Utilities {
 				PDDL_domain_buffer.append(")\n" + PDDL_temp_effects_sb + PDDL_temp_effects_2_sb + ")\n)\n\n");
 				
 			}
-	
-		}
+			}
 			
 		PDDL_domain_buffer.append(")");
 		
@@ -799,10 +791,10 @@ public class Utilities {
 		
 		PDDL_init_buffer.append(Constants.getPDDLAutomataInitialStates_sb());
 				
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 			PDDL_cost_buffer.append("(= (total-cost) 0)\n");
 			PDDL_init_buffer.append(PDDL_cost_buffer);
-		}
+		//}
 		PDDL_init_buffer.append(")\n");	
 		
 		//
@@ -819,7 +811,7 @@ public class Utilities {
 
 		PDDL_goal_buffer.append("))\n");
 		
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) 
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) 
 			PDDL_goal_buffer.append("(:metric minimize (total-cost))\n");	
 		
 		PDDL_problem_buffer.append(PDDL_objects_buffer);
@@ -904,9 +896,9 @@ public class Utilities {
 	}
 	
 	//
-	// Method that returns TRUE if the string passed as input is in the UPPER CASE format.
+	// Method that takes in input a trace id and returns the corresponding Trace object.
 	//
-	public static Trace getTracebyId(String str){
+	public static Trace getTraceById(String str){
 		Trace trace = null;
 		for(int k=0;k<Constants.getAllTraces_vector().size();k++) {
 	   		 trace = Constants.getAllTraces_vector().elementAt(k);
@@ -917,4 +909,21 @@ public class Utilities {
 		return trace;
 	}
 
+	//
+	// Method that prints the details related to an object of kind Trace passed in input.
+	//
+	public static void printTraceDetails(Trace trace){
+		System.out.println("Trace ID: " + trace.getTraceID());
+		System.out.println("Name: " + trace.getTraceName());		
+		System.out.println("Alphabet vector: " + trace.getTraceAlphabet_vector());
+		System.out.println("Original Content vector: " + trace.getOriginalTraceContent_vector());
+		System.out.println("Original Content string: " + trace.getOriginalTraceContent_string());
+		System.out.println("Content With Activities Instances vector: " + trace.getTraceContentWithActivitiesInstances_vector());		
+		System.out.println("Number Of Activity Instances vector: " + trace.getNumberOfActivityInstances_Hashtable());
+		System.out.println("Associations To Activity Instances: " + trace.getAssociationsToActivityInstances_Hashtable());
+		System.out.println("Missing Activities: " + trace.getTraceMissingActivities_vector());
+		System.out.println("Alphabet with missing activities of the constraints: " + trace.getTraceAlphabetWithMissingActivitiesOfTheConstraints_vector());
+		System.out.println();
+	}
+	
 }

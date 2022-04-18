@@ -1446,7 +1446,7 @@ public class ResultsPerspective extends JDialog
 		
 		//PDDL FUNCTIONS TO REPRESENT THE COST OF ADDING/REMOVING TASKS IN/FROM THE TRACE
 		
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 			
 			PDDL_domain_buffer.append(";;\n");
 			PDDL_domain_buffer.append(";;FUNCTIONS\n");		
@@ -1458,7 +1458,7 @@ public class ResultsPerspective extends JDialog
 			PDDL_domain_buffer.append("(total-cost)\n");					 
 			PDDL_domain_buffer.append(")\n");	
 					
-		}
+		//}
 		
 		//INSERT PDDL ACTIONS REPRESENTING TASKS 
 		
@@ -1475,9 +1475,9 @@ public class ResultsPerspective extends JDialog
 		PDDL_domain_buffer.append(":parameters (?x1 - task)\n");		
 		PDDL_domain_buffer.append(":precondition (not (exists (?x - task) (traced ?x)))\n");		 
 		PDDL_domain_buffer.append(":effect (and (traced ?x1) (first_task_of_the_trace ?x1) (last_task_of_the_trace ?x1)");			
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 		PDDL_domain_buffer.append(" (increase (total-cost) (adding-cost ?x1))");	
-		}
+		//}
 		PDDL_domain_buffer.append(")\n");	
 		PDDL_domain_buffer.append(")\n\n");		
 		
@@ -1489,9 +1489,9 @@ public class ResultsPerspective extends JDialog
 		PDDL_domain_buffer.append(":parameters (?x1 - task ?x2 - task)\n");		
 		PDDL_domain_buffer.append(":precondition (and (not (traced ?x2)) (first_task_of_the_trace ?x1))\n");		 
 		PDDL_domain_buffer.append(":effect (and (not (first_task_of_the_trace ?x1)) (first_task_of_the_trace ?x2) (traced ?x2) (pre ?x2 ?x1)");		
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 		PDDL_domain_buffer.append(" (increase (total-cost) (adding-cost ?x2))");	
-		}
+		//}
 		PDDL_domain_buffer.append(")\n");
 		PDDL_domain_buffer.append(")\n\n");
 
@@ -1503,9 +1503,9 @@ public class ResultsPerspective extends JDialog
 		PDDL_domain_buffer.append(":parameters (?x1 - task ?x2 - task)\n");		
 		PDDL_domain_buffer.append(":precondition (and (not (traced ?x2)) (last_task_of_the_trace ?x1))\n");		 
 		PDDL_domain_buffer.append(":effect (and (not (last_task_of_the_trace ?x1)) (last_task_of_the_trace ?x2) (traced ?x2) (pre ?x1 ?x2)");
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 		PDDL_domain_buffer.append(" (increase (total-cost) (adding-cost ?x2))");	
-		}
+		//}
 		PDDL_domain_buffer.append(")\n");
 		PDDL_domain_buffer.append(")\n\n");
 
@@ -1518,9 +1518,9 @@ public class ResultsPerspective extends JDialog
 		PDDL_domain_buffer.append(":parameters (?x1 - task ?x2 - task ?x3 - task)\n");		
 		PDDL_domain_buffer.append(":precondition (and (pre ?x1 ?x3) (not (traced ?x2)))\n");			 
 		PDDL_domain_buffer.append(":effect (and (traced ?x2) (pre ?x1 ?x2) (pre ?x2 ?x3) (not (pre ?x1 ?x3))");
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 		PDDL_domain_buffer.append(" (increase (total-cost) (adding-cost ?x2))");	
-		}
+		//}
 		PDDL_domain_buffer.append(")\n");
 		PDDL_domain_buffer.append(")\n\n");
 
@@ -1532,9 +1532,9 @@ public class ResultsPerspective extends JDialog
 		PDDL_domain_buffer.append(":parameters (?x1 - task)\n");		
 		PDDL_domain_buffer.append(":precondition (and (first_task_of_the_trace ?x1) (last_task_of_the_trace ?x1))\n");			 
 		PDDL_domain_buffer.append(":effect (and (not (traced ?x1)) (not (last_task_of_the_trace ?x1)) (not (first_task_of_the_trace ?x1))");			
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 		PDDL_domain_buffer.append(" (increase (total-cost) (removing-cost ?x1))");	
-		}
+		//}
 		PDDL_domain_buffer.append(")\n");
 		PDDL_domain_buffer.append(")\n\n");
 
@@ -1546,9 +1546,9 @@ public class ResultsPerspective extends JDialog
 		PDDL_domain_buffer.append(":parameters (?x1 - task ?x2 - task)\n");		
 		PDDL_domain_buffer.append(":precondition (and (pre ?x1 ?x2) (first_task_of_the_trace ?x1))\n");		 
 		PDDL_domain_buffer.append(":effect (and (not (traced ?x1)) (not (first_task_of_the_trace ?x1)) (first_task_of_the_trace ?x2) (not (pre ?x1 ?x2))");		
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 		PDDL_domain_buffer.append(" (increase (total-cost) (removing-cost ?x1))");	
-		}
+		//}
 		PDDL_domain_buffer.append(")\n");
 		PDDL_domain_buffer.append(")\n\n");
 
@@ -1560,9 +1560,9 @@ public class ResultsPerspective extends JDialog
 		PDDL_domain_buffer.append(":parameters (?x1 - task ?x2 - task)\n");		
 		PDDL_domain_buffer.append(":precondition (and (pre ?x1 ?x2) (last_task_of_the_trace ?x2))\n");		 
 		PDDL_domain_buffer.append(":effect (and (not (traced ?x2)) (not (last_task_of_the_trace ?x2)) (last_task_of_the_trace ?x1) (not (pre ?x1 ?x2))");			
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 		PDDL_domain_buffer.append(" (increase (total-cost) (removing-cost ?x2))");	
-		}
+		//}
 		PDDL_domain_buffer.append(")\n");
 		PDDL_domain_buffer.append(")\n\n");
 
@@ -1574,9 +1574,9 @@ public class ResultsPerspective extends JDialog
 		PDDL_domain_buffer.append(":parameters (?x1 - task ?x2 - task ?x3 - task)\n");		
 		PDDL_domain_buffer.append(":precondition (and (pre ?x1 ?x2) (pre ?x2 ?x3))\n");			
 		PDDL_domain_buffer.append(":effect (and (not (traced ?x2)) (not (pre ?x1 ?x2)) (not (pre ?x2 ?x3)) (pre ?x1 ?x3)");		
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 		PDDL_domain_buffer.append(" (increase (total-cost) (removing-cost ?x2))");	
-		}
+		//}
 		PDDL_domain_buffer.append(")\n");
 		PDDL_domain_buffer.append(")\n\n");
 
@@ -1625,7 +1625,7 @@ public class ResultsPerspective extends JDialog
 				String key = (String) enum_trace_hashtable.nextElement();
 				String value = (String) trace.getAssociationsToActivityInstances_Hashtable().get(key);
 
-				if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+				//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 								
 					for(int yu=0;yu<Constants.getActivitiesCost_vector().size();yu++) {
 						Vector<String> specificTraceCostVector = Constants.getActivitiesCost_vector().elementAt(yu);					
@@ -1635,7 +1635,7 @@ public class ResultsPerspective extends JDialog
 							break;
 						}
 					}				
-				}
+				//}
 			}
 			////////////////////////////////////////
 		
@@ -1667,10 +1667,10 @@ public class ResultsPerspective extends JDialog
 			PDDL_problem_buffer.append("(traced " + trace.getTraceContentWithActivitiesInstances_vector().elementAt(inx) + ")\n");
 		}
 		//////////////////////////////////
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 			PDDL_cost_buffer.append("(= (total-cost) 0)");
 			PDDL_problem_buffer.append(PDDL_cost_buffer);	
-		}
+		//}
 		/////////////////////////////////
 		PDDL_problem_buffer.append(")\n");		
 		
@@ -1689,7 +1689,7 @@ public class ResultsPerspective extends JDialog
 		}
 		PDDL_problem_buffer.append(")\n");		
 		/////////////////////
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) 
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) 
 			PDDL_problem_buffer.append("(:metric minimize (total-cost))\n");	
 		///////////////////	
 		PDDL_problem_buffer.append(")");	

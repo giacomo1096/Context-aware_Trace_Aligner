@@ -53,7 +53,7 @@ public class Desktop extends JFrame
 	    screenSize.height / 3 ) - ( this.getHeight ( ) / 3 ) );
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);		
-		this.setTitle("Plan-based Alignment for Declarative Processes");
+		this.setTitle("Planning-based Trace Alignment for Declarative Processes");
 		
 		Constants.setDesktop(this);
 		

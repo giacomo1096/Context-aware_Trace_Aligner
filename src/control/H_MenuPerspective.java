@@ -12,7 +12,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.deckfour.xes.extension.std.XConceptExtension;
-import org.deckfour.xes.extension.std.XLifecycleExtension;
 import org.deckfour.xes.model.XEvent;
 import org.deckfour.xes.model.XLog;
 import org.deckfour.xes.model.XTrace;
@@ -21,9 +20,6 @@ import org.processmining.plugins.declare.visualizing.AssignmentViewBroker;
 import org.processmining.plugins.declare.visualizing.ConstraintDefinition;
 import org.processmining.plugins.declare.visualizing.Parameter;
 import org.processmining.plugins.declare.visualizing.XMLBrokerFactory;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 
 import main.Constants;
 import main.Trace;
@@ -77,12 +73,8 @@ public class H_MenuPerspective {
 					
 					Constants.getMenuPerspective().getImportMenu().setEnabled(false);
 					Constants.getMenuPerspective().getImportDeclareMenuItem().setEnabled(false);
-             		/////////////////// ModelLearning ////////////////////
-             		//////////////////////////////////////////////////////
-                 	Constants.getMenuPerspective().getImportModelLearningAutomatonMenuItem().setEnabled(false);
-             		//////////////////////////////////////////////////////
-             		//////////////////////////////////////////////////////	
-           
+                 	Constants.getMenuPerspective().getImportDOTAutomatonMenuItem().setEnabled(false);
+
         	    }
 			}
 		});
@@ -278,13 +270,7 @@ public class H_MenuPerspective {
 						
 						Constants.getMenuPerspective().getImportMenu().setEnabled(false);
 		            	Constants.getMenuPerspective().getImportDeclareMenuItem().setEnabled(false);
-	             		/////////////////// ModelLearning ////////////////////
-	             		//////////////////////////////////////////////////////
-	                 	Constants.getMenuPerspective().getImportModelLearningAutomatonMenuItem().setEnabled(false);
-	             		//////////////////////////////////////////////////////
-	             		//////////////////////////////////////////////////////	
-	                 	
-	             		
+	                 	Constants.getMenuPerspective().getImportDOTAutomatonMenuItem().setEnabled(false);         		             		
 						} 
 			  		catch (Exception exception) {
 						exception.printStackTrace();
@@ -425,9 +411,7 @@ public class H_MenuPerspective {
 				  }
 			});
 		
-		/////////////////// ModelLearning ////////////////////
-		//////////////////////////////////////////////////////
-		_view.getImportModelLearningAutomatonMenuItem().addActionListener(new ActionListener() {
+		_view.getImportDOTAutomatonMenuItem().addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				
@@ -465,11 +449,9 @@ public class H_MenuPerspective {
 				        }
 				  }
 			});
-		//////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////
-		
 
-	
+		
+/*	
 		_view.getImportLTLFormulaMenuItem().addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -517,5 +499,7 @@ public class H_MenuPerspective {
 				     }
 				  }
 			});
+*/
+	
 	}
 }

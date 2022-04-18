@@ -160,7 +160,7 @@ public class UtilitiesBackup {
 	        	        
 	        Constants.getCombinationOfRelevantTransitions_vector().addElement(cot);
 	        
-	        if(Constants.getMenuPerspective().getSinkStatesMenuItem().isSelected() && cot.containsSinkstates()) {
+	        if(cot.containsSinkstates()) {
 	        	Constants.getCombinationOfRelevantTransitions_vector().removeElement(cot);
 	        	// System.out.println("This combination of transition contains a sink state ");
 	        } 
@@ -236,11 +236,11 @@ public class UtilitiesBackup {
 		PDDL_domain_buffer.append("(currstate ?s - state)\n");			
 		PDDL_domain_buffer.append(")\n\n");			
 		
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 			PDDL_domain_buffer.append("(:functions\n");	
 			PDDL_domain_buffer.append("(total-cost)\n");			
 			PDDL_domain_buffer.append(")\n\n");		
-		}
+		//}
 		
 		for(int i=0;i<Constants.getCombinationOfRelevantTransitions_vector().size();i++) {
 			
@@ -271,7 +271,7 @@ public class UtilitiesBackup {
 				PDDL_domain_buffer.append(":effect (and ");
 				PDDL_domain_buffer.append(cot.getPDDL_effects());
 				
-				if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+				//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 					PDDL_domain_buffer.append(" (increase (total-cost) ");	
 				
 						for(int yu=0;yu<Constants.getActivitiesCost_vector().size();yu++) {
@@ -281,8 +281,8 @@ public class UtilitiesBackup {
 								break;
 						}
 					}
-				}
-				else {PDDL_domain_buffer.append(")\n");}
+				//}
+				//else {PDDL_domain_buffer.append(")\n");}
 				
 				PDDL_domain_buffer.append(")\n\n");
 								
@@ -355,7 +355,8 @@ public class UtilitiesBackup {
 			PDDL_domain_buffer.append("(currstate t" + gk + ")\n");
 			PDDL_domain_buffer.append(":effect (and ");
 			PDDL_domain_buffer.append("(not (currstate t" + gk + ")) " + "(currstate t" + j + ") " );
-			if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+			
+			//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 				PDDL_domain_buffer.append(" (increase (total-cost) ");	
 			
 					for(int yu=0;yu<Constants.getActivitiesCost_vector().size();yu++) {
@@ -365,8 +366,8 @@ public class UtilitiesBackup {
 							break;
 					}
 				}
-			}
-			else {PDDL_domain_buffer.append(")\n");}
+			//}
+			//else {PDDL_domain_buffer.append(")\n");}
 		
 			PDDL_domain_buffer.append(")\n\n");
 		}
@@ -376,7 +377,6 @@ public class UtilitiesBackup {
 		// we need to generate PDDL actions to reach the ABSTRACT accepting state of any automaton, that are used as target states 
 		// for any regular accepting state.
 		//
-		if(!Constants.getMenuPerspective().getDisjunctiveGoalMenuItem().isSelected()) {
 					
 			StringBuffer PDDL_temp_effects_sb = new StringBuffer(":effect (and ");
 			
@@ -428,7 +428,6 @@ public class UtilitiesBackup {
 					
 				}
 			}
-		}
 			
 		PDDL_domain_buffer.append(")");
 		
@@ -461,10 +460,10 @@ public class UtilitiesBackup {
 		
 		PDDL_init_buffer.append(Constants.getPDDLAutomataInitialStates_sb());
 					
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) {
 			PDDL_cost_buffer.append("(= (total-cost) 0)\n");
 			PDDL_init_buffer.append(PDDL_cost_buffer);
-		}
+		//}
 		PDDL_init_buffer.append(")\n");	
 		
 		//
@@ -480,7 +479,7 @@ public class UtilitiesBackup {
 
 		PDDL_goal_buffer.append("))\n");
 		
-		if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) 
+		//if(Constants.getPlannerPerspective().getCostCheckBox().isSelected()) 
 			PDDL_goal_buffer.append("(:metric minimize (total-cost))\n");	
 		
 		PDDL_problem_buffer.append(PDDL_objects_buffer);
