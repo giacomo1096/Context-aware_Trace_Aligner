@@ -1,11 +1,14 @@
 package org.processmining.ltl2automaton.plugins.automaton;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class Transition {
 	private State source;
 	private State target;
 	private final TransitionLabel label;
+	
+	private Collection<String> negativeLabels_2;
 
 	public Transition(final State source, final State target) {
 		this(source, target, new TransitionLabel());
@@ -24,6 +27,15 @@ public class Transition {
 		this.target = target;
 		source.addOutput(this);
 		this.label = label;
+		this.negativeLabels_2 = new ArrayList<String>();
+	}
+	
+	public Collection<String> getNegativeLabels_2() {
+		return negativeLabels_2;
+	}
+
+	public void setNegativeLabels_2(Collection<String> negativeLabels_2) {
+		this.negativeLabels_2 = negativeLabels_2;
 	}
 
 	public Collection<String> getNegativeLabels() {

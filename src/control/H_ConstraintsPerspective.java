@@ -901,11 +901,13 @@ public class H_ConstraintsPerspective {
     	            			 //
     	            			 if(!Constants.getAutomataAllStates_vector().contains(tr_source_state))  {
     	            				 Constants.getAutomataAllStates_vector().addElement(tr_source_state);
-    	            				 Constants.getPDDLAutomataAllStates_sb().append(tr_source_state + " - state\n");        	            					 
+    	            				 Constants.getPDDLAutomataAllStates_sb().append(tr_source_state + " - state\n");  
+    	            				// System.out.println("source_state: "+tr_source_state + " - state\n");
     	            			 } 
     	            			 if(!Constants.getAutomataAllStates_vector().contains(tr_target_state))  {
     	            				 Constants.getAutomataAllStates_vector().addElement(tr_target_state);
-    	            				 Constants.getPDDLAutomataAllStates_sb().append(tr_target_state + " - state\n");        
+    	            				 Constants.getPDDLAutomataAllStates_sb().append(tr_target_state + " - state\n");    
+    	            				// System.out.println("target_state: "+tr_target_state + " - state\n");
     	            			 }
             				 
     	            			 //
@@ -992,14 +994,16 @@ public class H_ConstraintsPerspective {
 	         		//
 	         		CostPerspective cst = new CostPerspective();
              		Constants.setCostPerspective(cst); 
-             		
+             		 
              		
 	         		//Generate the cost automata file .dot
-	         		//Utilities.emptyFolder("cost_automata");
+             		
+	         		Utilities.emptyFolder("cost_automata");
              		
              		//pattern: pattern1(acitivity_1, activity_2, cost_1, cost_2)
              		
              		Vector<Automaton> cost_automata_vector = new Vector<Automaton>();
+             		
 
              		for (String cost_model : cst.getCostModelTextArea().getText().split("\\n")) {
 	
@@ -1213,7 +1217,44 @@ public class H_ConstraintsPerspective {
        	         		cost_automata_vector.add(automaton);
 
              		}
-             			
+             		
+             		/*
+             		
+             		//
+             		//
+             		//
+             		
+             		//Import cost automaton
+	         		Automaton cost_automaton_1 = null;
+	         		Automaton cost_automaton_2 = null;
+	         		Automaton cost_automaton_3 = null;
+	         		Automaton cost_automaton_4 = null;
+	         		String cost_automaton_file_path_1 = "/Users/giacomo/Desktop/cost_automata/cost_automaton_1.dot";
+	         		String cost_automaton_file_path_2 = "/Users/giacomo/Desktop/cost_automata/cost_automaton_2.dot";
+	         		String cost_automaton_file_path_3 = "/Users/giacomo/Desktop/cost_automata/cost_automaton_3.dot";
+	         		String cost_automaton_file_path_4 = "/Users/giacomo/Desktop/cost_automata/cost_automaton_4.dot";
+	         		
+	         		try {
+   	         			cost_automaton_1 = Utilities.getAutomatonForModelLearning(cost_automaton_file_path_1);
+   	         			cost_automaton_2 = Utilities.getAutomatonForModelLearning(cost_automaton_file_path_2);
+   	         			cost_automaton_3 = Utilities.getAutomatonForModelLearning(cost_automaton_file_path_3);
+   	         			cost_automaton_4 = Utilities.getAutomatonForModelLearning(cost_automaton_file_path_4);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+	         		System.out.println("\nCost Automata imported \n");
+	         		
+	         		cost_automata_vector.add(cost_automaton_1);
+	         		cost_automata_vector.add(cost_automaton_2);
+	         		cost_automata_vector.add(cost_automaton_3);
+	         		cost_automata_vector.add(cost_automaton_4);
+             		
+             		
+             		//
+             		//
+	         		//
+	         		
+	         		*/
 	         		
 	         		int ii = 0;
 	         		Iterator<Automaton> it_cost_automata = cost_automata_vector.iterator();
@@ -1301,6 +1342,61 @@ public class H_ConstraintsPerspective {
 	         				//System.out.println("label :  " + label + " cost:  " + cost + "\n");
          			
 	         				if(isRelevant) {
+	         					
+	         					//
+	         					// For each transition, add negative labels
+	         					//
+	         					
+	         					Transition transition_1 = transition;
+    	         				
+    	         				String label_1 = transition_1.toString();
+         						int source_state_1 = transition_1.getSource().getId();
+    	         				int target_state_1 = transition_1.getTarget().getId();
+    	         				
+    	         				if(label_1.startsWith("!")) {
+    	         					String negative_label_1 = label_1.substring(1);
+    	         					transition_1.getNegativeLabels_2().add(negative_label_1);
+    	         						    	         				
+    	         					Iterator<Transition> iterator_2 = cost_automaton.transitions().iterator();
+    	         					while(iterator_2.hasNext()) {
+    	         						Transition transition_2 = (Transition) iterator_2.next();
+	         						
+    	         						String label_2 = transition_2.toString();
+    	         						int source_state_2 = transition_2.getSource().getId();
+    	         						int target_state_2 = transition_2.getTarget().getId();
+	    	         				
+    	         						if(source_state_1 == source_state_2 && target_state_1 == target_state_2) {
+    	         							if(label_2.startsWith("!add_") && label_1.startsWith("!add_")) {	
+    	         								String negative_label_2 = label_2.substring(1);
+    	         								if(!transition_1.getNegativeLabels_2().contains(negative_label_2)) {
+    	         									transition_1.getNegativeLabels_2().add(negative_label_2);
+    	         								}
+    	         							}
+    	         							else if(label_2.startsWith("!del_") && label_1.startsWith("!del_")) {
+    	         								String negative_label_2 = label_2.substring(1);
+    	         								if(!transition_1.getNegativeLabels_2().contains(negative_label_2)) {
+    	         									transition_1.getNegativeLabels_2().add(negative_label_2);
+    	         								}
+	    	         						
+    	         							}
+    	         							else if(!label_2.startsWith("!add") && !label_2.startsWith("!del") && !label_1.startsWith("!add") && !label_1.startsWith("!del") && label_2.startsWith("!")) {
+    	         								String negative_label_2 = label_2.substring(1);
+    	         								if(!transition_1.getNegativeLabels_2().contains(negative_label_2)) {
+    	         									transition_1.getNegativeLabels_2().add(negative_label_2);
+    	         								}
+    	         							}
+    	         						}
+    	         					}
+    	         					
+    	         				}
+    	         				
+    	         				//Collection<String> coll3 = transition_1.getNegativeLabels_2();
+    	         				//System.out.println("\ntransitions: "+label_1+" negative labels: " + coll3.toString());
+	         							
+	         					//
+	         					// END negative labels
+	         					//
+	         					
 	         					System.out.println("Is Relevant! Add to the relevant transitions vector: ");
 	         					String tr_source_state = st_prefix + "_" + automaton_index + "_" + tr_source_state_id;
 	         					String tr_target_state = st_prefix + "_" + automaton_index + "_" + tr_target_state_id;
@@ -1319,12 +1415,14 @@ public class H_ConstraintsPerspective {
 
 	         					}
 	         					else { //If is negative
+	         							         						
+	         						Collection<String> coll2 = transition.getNegativeLabels_2();
+	         						
 	         						if(!label.startsWith("!add_") && !label.startsWith("!del_")) { 
 	         							//System.out.println(label + "\n");
-	         							String positiveLabel = label.substring(1);
 	         							for(int ix=0;ix< Constants.getAlphabetOfTheConstraints_vector().size();ix++) {
 	         								String symbol = Constants.getAlphabetOfTheConstraints_vector().elementAt(ix);
-	         								if(!positiveLabel.equals(symbol)) {
+	         								if(!coll2.contains(symbol)) {
 	         									tr_id = tr_prefix + "_" + automaton_index + "_" + single_tr_index;
 	         									System.out.println(tr_id +" "+tr_source_state+" "+tr_target_state+" "+symbol+" original trans: "+label+ " cost: "+cost);
 	         									RelevantTransition relevant_transition = new RelevantTransition(tr_id, tr_source_state, tr_target_state, symbol, label, 0);
@@ -1338,10 +1436,9 @@ public class H_ConstraintsPerspective {
 	         						}
 	         						else if(label.startsWith("!add_") || label.startsWith("!del_")) { 
 	         							String prefix = label.substring(1, 5);
-	         							String positiveLabel = label.substring(5);
 	         							for(int ix=0;ix< Constants.getAlphabetOfTheConstraints_vector().size();ix++) {
 	         								String symbol = Constants.getAlphabetOfTheConstraints_vector().elementAt(ix);
-	         								if(!positiveLabel.equals(symbol)) {
+	         								if(!coll2.contains(prefix+symbol)) {
 	         									tr_id = tr_prefix + "_" + automaton_index + "_" + single_tr_index;
 	         									String tr_label = prefix+symbol;
 	         									System.out.println(tr_id +" "+tr_source_state+" "+tr_target_state+" "+tr_label+" original trans: "+label+ " cost: "+cost);
@@ -1437,6 +1534,7 @@ public class H_ConstraintsPerspective {
 							// Reset the global vector containing the combinations of relevant transitions
 							Constants.setRelevantTransitions_map(transitions_map);
 							
+							/*
 							
 							//
 							// Remove the sink non-accepting states, if the option has been selected by the user
@@ -1447,6 +1545,7 @@ public class H_ConstraintsPerspective {
 									StringBuffer sb = new StringBuffer(all_states_string);
 									Constants.setPDDLAutomataAllStates_sb(sb);
 								}
+							*/
 													
 							/*
 							System.out.println(" -- ALL STATES -- " + Constants.getAutomataAllStates_vector());
