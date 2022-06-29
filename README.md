@@ -6,7 +6,7 @@ The technique has been implemented relying on Automated Planning in Artificial I
 ## Hot to use the tool
 The tool is known to work on Mac and Linux machines.
 
-A screencast of the tool in action is provided [here](http://) (TODO).
+A screencast of the tool in action is provided [here](https://www.youtube.com/watch?v=EvZ7sZJq-ew) .
 
 We provide [here](https://drive.google.com/file/d/1WVQYU1hdiKNJgzDeR2L7yTiiZIJekh_u/view?usp=sharing) a set of synthetic event logs and models to test the performance of the tool.
 
