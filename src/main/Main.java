@@ -28,7 +28,7 @@ public class Main {
 		new File("checkNumberOfTraces").setExecutable(true);
 				
 	    new Desktop();
-		 
+		//prova
 	}
 
 }
