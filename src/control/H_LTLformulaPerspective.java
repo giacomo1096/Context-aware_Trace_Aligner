@@ -13,6 +13,11 @@ import main.Constants;
 
 import view.LTLformulaPerspective;
 
+import org.processmining.ltl2automaton.plugins.automaton.Automaton;
+import org.processmining.ltl2automaton.plugins.ltl.SyntaxParserException;
+
+import main.LTLFormula;
+
 public class H_LTLformulaPerspective {
 	
 	public LTLformulaPerspective _view = null;
@@ -48,8 +53,42 @@ public class H_LTLformulaPerspective {
             {
 
             	String ltl_formula = _view.getFormulaTextArea().getText();
+
+
+				//
+				Automaton automaton = null;
+				try {
+					automaton = LTLFormula.generateAutomatonByLTLFormula(ltl_formula);
+					if(Constants.getConstraintsPerspective().getConstraintsListModel().contains("LTL{" + ltl_formula + "}"))
+    					JOptionPane.showMessageDialog(_view, new JLabel("<html>The LTL formula '" + ltl_formula + "' <font color=\"red\">already exists</font>!</html>"), "Attention", JOptionPane.ERROR_MESSAGE, new ImageIcon("images/alert_icon.png"));
+    				else {
+    			 		Constants.getConstraintsPerspective().getConstraintsListModel().addElement("LTL{" + ltl_formula + "}");
+            			_view.dispose();
+    			}
+				} catch (SyntaxParserException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(_view, new JLabel("<html>The LTL formula '" + ltl_formula + "' <font color=\"red\">is not valid</font>!</html>"), "Attention", JOptionPane.ERROR_MESSAGE, new ImageIcon("images/alert_icon.png"));
+
+				}
+
+
+				//
             	
-            	if(Constants.getConstraintsPerspective().getConstraintsListModel().contains(ltl_formula))
+				
+            }
+        });
+
+
+		/*
+		 _view.getOkButton().addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent ae)
+            {
+
+            	String ltl_formula = _view.getFormulaTextArea().getText();
+            	
+				//if(Constants.getConstraintsPerspective().getConstraintsListModel().contains(ltl_formula))
+            	if(Constants.getConstraintsPerspective().getConstraintsListModel().contains("LTL{" + ltl_formula + "}"))
     				JOptionPane.showMessageDialog(_view, new JLabel("<html>The LTL formula '" + ltl_formula + "' <font color=\"red\">already exists</font>!</html>"), "Attention", JOptionPane.ERROR_MESSAGE, new ImageIcon("images/alert_icon.png"));
     			else {
     			 	Constants.getConstraintsPerspective().getConstraintsListModel().addElement("LTL{" + ltl_formula + "}");
@@ -57,6 +96,7 @@ public class H_LTLformulaPerspective {
     			}
             }
         });
+		 */
 		
 	}
 

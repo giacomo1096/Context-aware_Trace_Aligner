@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionListener;
 import org.processmining.ltl2automaton.plugins.automaton.Automaton;
 import org.processmining.ltl2automaton.plugins.automaton.State;
 import org.processmining.ltl2automaton.plugins.automaton.Transition;
+import org.processmining.ltl2automaton.plugins.ltl.SyntaxParserException;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -104,6 +105,10 @@ public class H_ConstraintsPerspective {
 			    		  LTLconstraint = LTLconstraint.replace("}","");
 			    		  _view.getLTLconstraintLabel().setText("Corresponding LTL constraint : " + LTLconstraint);
 			    	  }
+			    	  else if(activity_selected.startsWith("DFA{")) {
+						_view.getLTLconstraintLabel().setText("DFA constraint ");
+					  }
+
 			    	  else {
 		    	  
 		    	  String[] split = activity_selected.split("\\(");
@@ -483,7 +488,7 @@ public class H_ConstraintsPerspective {
 	         		//
 	         		// For any Declare/LTL constraint, generate the supporting structures required to synthexize correct planning domains and problems.
 	         		//	         		
-	         		for(int k=0;k<Constants.getConstraintsPerspective().getConstraintsListModel().size();k++) {
+	         		for(int k=0;k<Constants.getConstraintsPerspective().getConstraintsListModel().size();k++) { 
 	         				
 	         			
 	         			/////// **** AAAI2017 **** ////////////////////////////       	
@@ -596,6 +601,8 @@ public class H_ConstraintsPerspective {
 				    		            	v.addElement("1");
 				    		            	v.addElement("1");
 				    	            		Constants.getActivitiesCost_vector().addElement(v);
+
+											ple.getActivitiesArea().append(activities_of_ltl_formula_array[i] + "\n");
 									}
 								
 								
@@ -765,6 +772,11 @@ public class H_ConstraintsPerspective {
 				       	              Iterator<Transition> transitions = ss.getOutput().iterator();
 				       	              while (transitions.hasNext()) {
 				       	                  Transition t = transitions.next();
+
+										  System.out.println(t.getSource().toString() +" "+ t.toString()+" "+t.getTarget().toString());
+
+
+
 				       	                  if(!Constants.getAlphabetOfTheConstraints_vector().contains(t.getPositiveLabel())) {
 				       	      				Constants.getAlphabetOfTheConstraints_vector().addElement(t.getPositiveLabel());
 				       	      				//
@@ -790,7 +802,12 @@ public class H_ConstraintsPerspective {
 		       	     		/////////////////////////////////////////////////////////////////////////////
        	         		
        	         		else {
-       	         			automaton = LTLFormula.generateAutomatonByLTLFormula(ltl_formula);
+       	         			try {
+								automaton = LTLFormula.generateAutomatonByLTLFormula(ltl_formula);
+							} catch (SyntaxParserException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
        	         		}
     	         		     		
     	         		
@@ -1287,7 +1304,7 @@ public class H_ConstraintsPerspective {
 	       	              				//
 	       	              				// Update the GUI to show the complete alphabet of activities of the constraints and of the log.
 	       	              				//
-	       	              				ple.getActivitiesArea().append(label + "\n");
+	       	              				//ple.getActivitiesArea().append(label + "\n");
 	       	              			}
 	       	                	
 	       	              		}

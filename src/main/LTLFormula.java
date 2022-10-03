@@ -116,13 +116,31 @@ public class LTLFormula {
 		return formula;
 	}
 	
-	public static Automaton generateAutomatonByLTLFormula(String formula) {
+	public static Automaton generateAutomatonByLTLFormula(String formula) throws SyntaxParserException {
+		  List<Formula> formulaeParsed = new ArrayList<Formula>();
+		
+		   
+			formulaeParsed.add(new DefaultParser(formula).parse());
+		
+		   TreeFactory<ConjunctionTreeNode, ConjunctionTreeLeaf> treeFactory = DefaultTreeFactory.getInstance();
+		   ConjunctionFactory<? extends GroupedTreeConjunction> conjunctionFactory = GroupedTreeConjunction
+		     .getFactory(treeFactory);
+		   GroupedTreeConjunction conjunction = conjunctionFactory.instance(formulaeParsed);
+		   Automaton aut = conjunction.getAutomaton().op.determinize();
+
+				  return aut;
+		 }
+
+
+		 /*
+		  public static Automaton generateAutomatonByLTLFormula(String formula) {
 		  List<Formula> formulaeParsed = new ArrayList<Formula>();
 		
 		   try {
 			formulaeParsed.add(new DefaultParser(formula).parse());
 		} catch (SyntaxParserException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Formula LTL non valida\n");
 			e.printStackTrace();
 		}
 		   TreeFactory<ConjunctionTreeNode, ConjunctionTreeLeaf> treeFactory = DefaultTreeFactory.getInstance();
@@ -133,4 +151,5 @@ public class LTLFormula {
 
 				  return aut;
 		 }
+		  */
 }

@@ -315,6 +315,8 @@ public class H_MenuPerspective {
 					  			 AssignmentViewBroker broker = XMLBrokerFactory.newAssignmentBroker(selectedFile.getAbsolutePath());
 	
 					  			 AssignmentModel assmod = broker.readAssignment();
+
+								 boolean selected = false;
 					  			 
 					  			 for(ConstraintDefinition cd : assmod.getConstraintDefinitions()){
 
@@ -379,14 +381,15 @@ public class H_MenuPerspective {
 					  		      constraint = constraint + ")";
 					  		      
 					  		    if(!is_valid_constraint) {
+									int dialogResult = 0;
 					  		    	
-					  		    	int dialogResult = 0;
+									if(!selected){
+										selected = true;
 					  		    	
-					  		    	if(activities_not_in_the_repo_vector.size()==1)
-					  		    		dialogResult = JOptionPane.showConfirmDialog(null, "The constraint '" + constraint + "' refers to the activity '" + activities_not_in_the_repo_vector.elementAt(0) + "',\nwhich is not listed in the activities repository! Such a constraint can not be properly imported, unless the missing activity is not imported in the repository.\n\nDo you want to import the activity '" + activities_not_in_the_repo_vector.elementAt(0) + "' in the activities repository?", "ATTENTION!", JOptionPane.YES_NO_OPTION);
-					  		    	else
-					  		    		dialogResult = JOptionPane.showConfirmDialog(null, "The constraint '" + constraint + "' refers to the activities: \n" + activities_not_in_the_repo_vector + ", which are not listed in the activities repository!\nSuch a constraint can not be properly imported, unless the missing activities are not imported in the repository.\n\nDo you want to import the activities " + activities_not_in_the_repo_vector + " in the activities repository?", "ATTENTION!", JOptionPane.YES_NO_OPTION);
-					  		    		
+										dialogResult = JOptionPane.showConfirmDialog(null, "One or more constraints refer to activities which are not listed in the activities repository!\nSuch constraints can not be properly imported, unless the missing activities are not imported in the repository.\nDo you want to import the activities in the activities repository?", "ATTENTION!", JOptionPane.YES_NO_OPTION);
+									}
+
+
 					  		    	if(dialogResult == JOptionPane.YES_OPTION){
 					  		    		for(int h=0;h<activities_not_in_the_repo_vector.size();h++) {
 					  		    			String specific_activity = activities_not_in_the_repo_vector.elementAt(h);
@@ -397,6 +400,7 @@ public class H_MenuPerspective {
 					  		    		}
 										Constants.getConstraintsPerspective().getConstraintsListModel().addElement(constraint);	
 					  		    	}
+									//else   do nothing
 					  		    }
 					  		    else if(!Constants.getConstraintsPerspective().getConstraintsListModel().contains(constraint))
 		            				Constants.getConstraintsPerspective().getConstraintsListModel().addElement(constraint);					  		      
