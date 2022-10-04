@@ -8,13 +8,23 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.deckfour.xes.extension.std.XConceptExtension;
 import org.deckfour.xes.model.XEvent;
 import org.deckfour.xes.model.XLog;
 import org.deckfour.xes.model.XTrace;
+
+import org.processmining.ltl2automaton.plugins.automaton.Automaton;
+import org.processmining.ltl2automaton.plugins.automaton.State;
+import org.processmining.ltl2automaton.plugins.automaton.Transition;
+import org.processmining.ltl2automaton.plugins.ltl.SyntaxParserException;
+import java.util.Iterator;
+
 import org.processmining.plugins.declare.visualizing.AssignmentModel;
 import org.processmining.plugins.declare.visualizing.AssignmentViewBroker;
 import org.processmining.plugins.declare.visualizing.ConstraintDefinition;
@@ -23,6 +33,7 @@ import org.processmining.plugins.declare.visualizing.XMLBrokerFactory;
 
 import main.Constants;
 import main.Trace;
+import main.Utilities;
 import main.XLogReader;
 
 import view.MenuPerspective;
@@ -432,6 +443,108 @@ public class H_MenuPerspective {
 				 	fileChooser.setCurrentDirectory(workingDirectory);
 				 				 
 			        int returnValue = fileChooser.showOpenDialog(Constants.getDesktop());
+
+			        
+			        if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+						File selectedFile = fileChooser.getSelectedFile();
+			        	String model_learning_constraint = "DFA{" + selectedFile.getAbsolutePath() + "}";
+
+						
+
+						
+				         
+			        	String[] options = new String[] {"Yes", "No"};
+		        	    int response = JOptionPane.showOptionDialog(null, "Lose the previously defined Declare constraints?", "Import Declare constraints from a XML file",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+		        	    if(response==0) {
+
+													//
+													Automaton automaton = null;
+	       	         		
+													Vector<String> activities_not_in_the_repo_vector = new Vector<String>();
+													boolean is_valid_constraint = true;
+													String DFA_file_path = model_learning_constraint.replace("DFA{", "");
+													DFA_file_path = DFA_file_path.replace("}", "");            			
+													//ltl_formula = temporal_constraint;
+															
+															
+														try {
+															automaton = Utilities.getAutomatonForModelLearning(DFA_file_path);
+															//automaton = Utilities.getAutomatonForModelLearningDot(DFA_file_path);
+															State s = automaton.getInit();
+															Iterator<State> it = automaton.iterator();
+															while (it.hasNext()) {
+																State ss = it.next();
+																Iterator<Transition> transitions = ss.getOutput().iterator();
+																while (transitions.hasNext()) {
+																	Transition t = transitions.next();
+					   
+																	 //System.out.println(t.getSource().toString() +" "+ t.toString()+" "+t.getTarget().toString());
+					
+																	 if(!Constants.getActivitiesRepository_vector().contains(t.getPositiveLabel())) {
+																		activities_not_in_the_repo_vector.addElement(t.getPositiveLabel());
+																		is_valid_constraint = false;
+																	}
+					
+																}
+														   }
+														   if(!is_valid_constraint) {
+															int dialogResult = 0;
+															dialogResult = JOptionPane.showConfirmDialog(null, "One or more transitions of the automaton refer to activities which are not listed in the activities repository!\nThe automaton can not be properly imported, unless the missing activities are not imported in the repository.\nDo you want to import the activities in the activities repository?", "ATTENTION!", JOptionPane.YES_NO_OPTION);
+															
+															if(dialogResult == JOptionPane.YES_OPTION){
+																for(int h=0;h<activities_not_in_the_repo_vector.size();h++) {
+																	String specific_activity = activities_not_in_the_repo_vector.elementAt(h);
+																	
+																	if(!Constants.getActivitiesRepository_vector().contains(specific_activity)){
+																		Constants.getActivitiesRepository_vector().addElement(specific_activity);											
+																		Constants.getAlphabetPerspective().getAlphabetListModel().addElement(specific_activity);
+																    	Constants.getTracesPerspective().getAlphabetListModel().addElement(specific_activity);
+																	}
+																}
+																// RESET the ConstraintsPerspective view
+																Constants.getConstraintsPerspective().resetComponent();
+			        											Constants.getConstraintsPerspective().getConstraintsListModel().addElement(model_learning_constraint);			  
+															}
+														  //else   do nothing
+														}
+					
+					
+													} catch (FileNotFoundException ee) {
+														ee.printStackTrace();
+														JOptionPane.showMessageDialog(_view, new JLabel("<html>The .dot file is not valid</html>"), "Attention", JOptionPane.ERROR_MESSAGE, new ImageIcon("images/alert_icon.png"));
+					
+													}
+					
+											//
+			        	
+						
+				        }
+				        }
+				  }
+			});
+			
+
+/*
+ 
+_view.getImportDOTAutomatonMenuItem().addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser fileChooser = new JFileChooser();
+				 
+				    FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("DOT file (*.dot)", "dot");
+
+				 	fileChooser.setDialogTitle("Import Automaton");
+				 	fileChooser.setAcceptAllFileFilterUsed(false);
+				 	fileChooser.setFileFilter(xmlfilter);
+				 	
+				 	String workingDirectoryName = System.getProperty("user.dir");
+				 	File workingDirectory = new File(workingDirectoryName + File.separator + "resources" + File.separator + "declarative models");
+				 	fileChooser.setCurrentDirectory(workingDirectory);
+				 				 
+			        int returnValue = fileChooser.showOpenDialog(Constants.getDesktop());
 			        
 			        if (returnValue == JFileChooser.APPROVE_OPTION) {
 				         
@@ -453,9 +566,9 @@ public class H_MenuPerspective {
 				        }
 				  }
 			});
-
+*/
 		
-/*	
+/*
 		_view.getImportLTLFormulaMenuItem().addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {

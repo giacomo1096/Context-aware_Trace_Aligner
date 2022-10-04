@@ -602,7 +602,7 @@ public class H_ConstraintsPerspective {
 				    		            	v.addElement("1");
 				    	            		Constants.getActivitiesCost_vector().addElement(v);
 
-											ple.getActivitiesArea().append(activities_of_ltl_formula_array[i] + "\n");
+											//ple.getActivitiesArea().append(activities_of_ltl_formula_array[i] + "\n");
 									}
 								
 								
@@ -706,7 +706,7 @@ public class H_ConstraintsPerspective {
 		            		//
 		            		else {
 	            				
-	            				String activity = constraint_splitted_2[0];
+	            				String activity = constraint_splitted_2[0]; 
 	            				
 	            				if(!Constants.getAlphabetOfTheConstraints_vector().contains(activity))
 	            					Constants.getAlphabetOfTheConstraints_vector().addElement(activity);
@@ -782,7 +782,9 @@ public class H_ConstraintsPerspective {
 				       	      				//
 				    	            		// Update the GUI to show the complete alphabet of activities of the constraints and of the log.
 				    	            		//
+											if(!Constants.getActivitiesRepository_vector().contains(t.getPositiveLabel())) {
 				    	            		ple.getActivitiesArea().append(t.getPositiveLabel() + "\n");
+											}
 				    	            		
 				    	            		//
 				    	            	    // Update the global vector containing the cost of adding/removing activities in/from the trace (the default cost is equal to 1).
