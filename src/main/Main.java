@@ -1,6 +1,8 @@
 package main; 
 
 import java.io.File;
+
+import view.CostPerspective3;
 import view.Desktop;
 
 public class Main {
@@ -27,6 +29,8 @@ public class Main {
 		new File("checkNumberOfTraces").setExecutable(true);
 				
 	    new Desktop();
+
+		//new CostPerspective3();
 	}
 
 }
