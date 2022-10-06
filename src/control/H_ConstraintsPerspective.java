@@ -341,7 +341,8 @@ public class H_ConstraintsPerspective {
 		_view.getNextStepButton().addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent ae)
-            {           	          	
+            {    
+				Constants.setBack_from_cost(false);       	          	
             	//
             	// The tool works properly only if the set of Declare/LTL constraints is not empty. Otherwise, it throws an exception.
 	        	//
@@ -773,7 +774,7 @@ public class H_ConstraintsPerspective {
 				       	              while (transitions.hasNext()) {
 				       	                  Transition t = transitions.next();
 
-										  System.out.println(t.getSource().toString() +" "+ t.toString()+" "+t.getTarget().toString());
+										System.out.println(t.getSource().toString() +" "+ t.toString()+" "+t.getTarget().toString());
 
 
 
@@ -895,7 +896,11 @@ public class H_ConstraintsPerspective {
 	            					    // ones are inferred from the repository of activities involved in the log and in the Declare constraints.
 	            					 
 	            					 Collection<String> coll = transition.getNegativeLabels();
-	            					 
+
+	            					 System.out.println("transizione negativa rilevata!\n");
+									 System.out.println(coll.toString());
+
+
 	            					 for(int ix=0;ix<Constants.getActivitiesRepository_vector().size();ix++) {
 	            						 tr_id = tr_prefix + "_" + automaton_index + "_" + single_tr_index;
 	            						 String symbol = Constants.getActivitiesRepository_vector().elementAt(ix);
@@ -1023,8 +1028,12 @@ public class H_ConstraintsPerspective {
              		
              		Vector<Automaton> cost_automata_vector = new Vector<Automaton>();
              		
+					//int conta_iterazioni = 0;
 
              		for (String cost_model : cst.getCostModelTextArea().getText().split("\\n")) {
+						//conta_iterazioni++;
+						//System.out.println("ciclo numero: "+conta_iterazioni);
+
 	
              			Automaton automaton = null;
        	         		if(cost_model.startsWith("DFA{")) {
@@ -1040,7 +1049,7 @@ public class H_ConstraintsPerspective {
 							}
        	         		}
        	         		
-       	         		else {
+       	         		else if(cost_model.startsWith("pattern")) {
        	         			
        	         		StringBuffer cost_automaton_buffer = new StringBuffer();
        	         		
@@ -1236,7 +1245,7 @@ public class H_ConstraintsPerspective {
        	         		cost_automata_vector.add(automaton);
 
              		}
-             		
+             		//System.out.println("numero cicli totale: "+conta_iterazioni);
              		/*
              		
              		//
@@ -1278,10 +1287,14 @@ public class H_ConstraintsPerspective {
 	         		int ii = 0;
 	         		Iterator<Automaton> it_cost_automata = cost_automata_vector.iterator();
 	         		while(it_cost_automata.hasNext()) {
-	         			ii++;
-	         			System.out.println("\nCOST AUTOMATON N. " + ii);
+	         			
 	
-	         			Automaton cost_automaton = it_cost_automata.next();	         		
+	         			Automaton cost_automaton = it_cost_automata.next();
+
+						if(cost_automaton != null){
+						
+						ii++;
+	         			System.out.println("\nCOST AUTOMATON N. " + ii);
 	         		
 	         			State initial_state_of_cost_automaton = cost_automaton.getInit();
 	         			Iterator<State> it1 = cost_automaton.iterator();
@@ -1495,7 +1508,7 @@ public class H_ConstraintsPerspective {
 	         			
 	         			automata_vector.add(cost_automaton);
 	         			automaton_index++;
-               		
+					}
 	         		}
 	         		//
          			// Update the global vectors containing the relevant transitions of the cost automaton.
@@ -1883,11 +1896,13 @@ public class H_ConstraintsPerspective {
 	            		///////////////////////////////////
 	            		
 	             		_view.getConstraintComboBox().setSelectedIndex(0);
-	             		_view.setComponentEnabled(false);       		
+
+						if(!Constants.isBack_from_cost()){
+	             		_view.setComponentEnabled(false);        		
 	             		
 	             	 	ple.setModal(true);
 	             		ple.setVisible(true);
-	             		
+						}
 	             		
 	        		}	        		
 	        		else {

@@ -277,7 +277,7 @@ public class PlannerPerspective extends JDialog
 	    this.add(blankLabel); 
 	    this.add(generatePDDLButton); 
 	    this.add(blankLabel_5); 
-	    this.add(runPlannerButton); 
+	    //this.add(runPlannerButton); 
 		
 	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 

@@ -244,6 +244,16 @@ public class Constants {
 	// Boolean variable used to record the decision to discard or not the duplicated traces of a log during the alignment.
 	//
 	private static boolean discard_duplicated_traces = false;
+
+
+	private static boolean back_from_cost_perspective = false;
+
+	public static boolean isBack_from_cost() {
+		return back_from_cost_perspective;
+	}
+	public static void setBack_from_cost(boolean back_from_cost_perspective) {
+		Constants.back_from_cost_perspective = back_from_cost_perspective;
+	}
 	
 	///////////////////////////////////////
 	// -- LIST OF GETTERS AND SETTERS -- //
@@ -252,6 +262,7 @@ public class Constants {
 	//
 	// Getters and Setters to retrieve and manipulate the main frame and the required JDialogs/JPanels used to realize the GUI of the software.
 	//
+
 	public static JFrame getDesktop() {
 		return desktop;
 	}

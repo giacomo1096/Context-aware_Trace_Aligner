@@ -17,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import main.Constants;
 import view.CostPerspective;
+import view.PlannerPerspective;
 
 public class H_CostPerspective {
 	
@@ -31,7 +32,11 @@ public class H_CostPerspective {
 		
 		_view.getPreviousStepButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				Constants.getConstraintsPerspective().setComponentEnabled(true);
+				Constants.setBack_from_cost(true);
 				_view.dispose();
+				
 			}
 		});
 		_view.addWindowListener(new WindowListener() {            
@@ -42,6 +47,8 @@ public class H_CostPerspective {
             public void windowIconified(WindowEvent e) {}
             public void windowDeiconified(WindowEvent e) {}
             public void windowClosing(WindowEvent e) {
+				Constants.getConstraintsPerspective().setComponentEnabled(true);
+				Constants.setBack_from_cost(true);
 				_view.dispose();
             }
         });
@@ -53,6 +60,9 @@ public class H_CostPerspective {
             {
             	
 				_view.dispose();
+				//PlannerPerspective ple = Constants.getPlannerPerspective();
+				//ple.setModal(true);
+	            //ple.setVisible(true);
             	
             }
         });
