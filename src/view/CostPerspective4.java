@@ -1,4 +1,4 @@
-/* 
+/*
 package view;
 
 import java.awt.Container;
@@ -51,7 +51,6 @@ public class CostPerspective3 extends JDialog{
 	
 	private JButton nextStepButton;
 	private JButton previousStepButton;
-	private JButton importDFAButton;
 	private JLabel blankLabel;
 
     //
@@ -61,9 +60,14 @@ public class CostPerspective3 extends JDialog{
 	private JLabel firstBoxLabel;
 	private JLabel secondBoxLabel;
 	private JLabel thirdBoxLabel;
-    private JComboBox<String> constraintComboBox;
+	private JLabel fourthBoxLabel;
+	private JLabel fifthBoxLabel;
+    private JComboBox<String> patternComboBox;
 	private JComboBox<String> firstActivityComboBox;
 	private JComboBox<String> secondActivityComboBox;
+	private JTextField costField1;
+	private JTextField costField2;
+
     private DefaultListModel<String> constraintsListModel;
 	private JList<String> constraintsList;
 	private JScrollPane constraintsScrollPane;
@@ -85,15 +89,15 @@ public class CostPerspective3 extends JDialog{
 		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
 		
-		this.setTitle("Associate Costs to Activities");
+		this.setTitle("STEP 4: Associate Costs to Activities");
 		
 		northPanel = new JPanel();
-		northPanel.setPreferredSize(new Dimension(690,100));
+		northPanel.setPreferredSize(new Dimension(690,90));
 		northPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		northPanel.setLayout(new FlowLayout());
 
         centralPanel = new JPanel();
-		centralPanel.setPreferredSize(new Dimension(690,250));
+		centralPanel.setPreferredSize(new Dimension(690,225));
 		centralPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		centralPanel.setLayout(new FlowLayout());
 		
@@ -111,51 +115,46 @@ public class CostPerspective3 extends JDialog{
 		activitiesComboBox.setSelectedIndex(0);		
 		activitiesComboBox.setEnabled(true);
 		addingCostField = new JTextField("Adding Cost");
-		addingCostField.setPreferredSize(new Dimension(90,25));
+		addingCostField.setPreferredSize(new Dimension(100,25));
 		addingCostField.setEnabled(true);
 		removalCostField = new JTextField("Removal Cost");
-		removalCostField.setPreferredSize(new Dimension(90,25));
+		removalCostField.setPreferredSize(new Dimension(100,25));
 		removalCostField.setEnabled(true);
-     
-		
-		
-		importDFAButton = new JButton("Import Cost Model as a DFA");
-		
+
+				
 		northPanel.add(fixedCostLabel);
 		northPanel.add(activitiesComboBox);
 		northPanel.add(addingCostField);
 		northPanel.add(removalCostField);
 		
-		//northPanel.add(costModelLabel);
-		//northPanel.add(costModelScrollPane);
-		//northPanel.add(importDFAButton);
 
-        
-
+//
         costModelLabel = new JLabel(" Cost Models:");
 		costModelLabel.setPreferredSize(new Dimension(435,30));
 
 
-        firstBoxLabel = new JLabel("Constraint:");
+        firstBoxLabel = new JLabel("Pattern:");
 		firstBoxLabel.setPreferredSize(new Dimension(90,25));
 		secondBoxLabel = new JLabel("Activity#1:");
 		secondBoxLabel.setPreferredSize(new Dimension(90,25));
 		thirdBoxLabel = new JLabel("Activity#2:");
 		thirdBoxLabel.setPreferredSize(new Dimension(90,25));
+
+
+		fourthBoxLabel = new JLabel("Cost#1:");
+		fourthBoxLabel.setPreferredSize(new Dimension(90,25));
+		fifthBoxLabel = new JLabel("Cost#2:");
+		fifthBoxLabel.setPreferredSize(new Dimension(90,25));
 		
-		constraintComboBox = new JComboBox<String>();
-		constraintComboBox.setPreferredSize(new Dimension(200,25));
+		patternComboBox = new JComboBox<String>();
+		patternComboBox.setPreferredSize(new Dimension(200,25));
 		
-		constraintComboBox.addItem("---");
+		patternComboBox.addItem("---");
 		
-		//RULES having one argument
-		constraintComboBox.addItem("existence");	
-		
-		//RULES having two arguments
-		
-		//choice and exclusive choice
-		constraintComboBox.addItem("choice");
-		constraintComboBox.addItem("exclusive choice");
+		patternComboBox.addItem("pattern1");	
+		patternComboBox.addItem("pattern2");
+		patternComboBox.addItem("pattern3");
+		patternComboBox.addItem("pattern4");
 		
 		
 		
@@ -169,16 +168,28 @@ public class CostPerspective3 extends JDialog{
 		secondActivityComboBox.setPreferredSize(new Dimension(200,25));
 		secondActivityComboBox.setEnabled(false);
 		
-		
+		costField1 = new JTextField();
+		costField1.setPreferredSize(new Dimension(200,25));
+		costField1.setEnabled(false);
+		costField2 = new JTextField();
+		costField2.setPreferredSize(new Dimension(200,25));
+		costField2.setEnabled(false);
+
 		constraintPanel = new JPanel();
 		constraintPanel.setLayout(new FlowLayout());
-		constraintPanel.setPreferredSize(new Dimension(300,100));
+		constraintPanel.setPreferredSize(new Dimension(300,150));
 		constraintPanel.add(firstBoxLabel);
-		constraintPanel.add(constraintComboBox);
+		constraintPanel.add(patternComboBox);
 		constraintPanel.add(secondBoxLabel);
 		constraintPanel.add(firstActivityComboBox);
 		constraintPanel.add(thirdBoxLabel);
 		constraintPanel.add(secondActivityComboBox);
+
+		constraintPanel.add(fourthBoxLabel);
+		constraintPanel.add(costField1);
+		constraintPanel.add(fifthBoxLabel);
+		constraintPanel.add(costField2);
+
 		
 		//
 		// JPanel containing the JButtons for adding new activities in the alphabet
@@ -201,7 +212,7 @@ public class CostPerspective3 extends JDialog{
 		constraintsList.setSelectedIndex(-1);
 
 		constraintsScrollPane = new JScrollPane(constraintsList);
-		constraintsScrollPane.setPreferredSize(new Dimension(240,90));
+		constraintsScrollPane.setPreferredSize(new Dimension(240,140));
 		constraintsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		constraintsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -218,7 +229,7 @@ public class CostPerspective3 extends JDialog{
 		previousStepButton = new JButton("< Previous Step");
 	
 		southPanel = new JPanel();
-		southPanel.setPreferredSize(new Dimension(640,40));
+		southPanel.setPreferredSize(new Dimension(640,60));
 		southPanel.setLayout(new FlowLayout());
 		southPanel.add(previousStepButton);
 		southPanel.add(blankLabel);
@@ -260,9 +271,6 @@ public class CostPerspective3 extends JDialog{
 		return previousStepButton;
 	}
 	
-	public JButton getImportDFAButton() {
-		return importDFAButton;
-	}
 	
 	public JComboBox<String> getActivitiesComboBox() {
 		return activitiesComboBox;

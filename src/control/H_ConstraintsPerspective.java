@@ -38,6 +38,7 @@ import view.LTLformulaPerspective;
 import view.PlannerPerspective;
 import view.ConstraintsPerspective;
 import view.CostPerspective;
+import view.CostPerspective3;
 
 public class H_ConstraintsPerspective {
 	
@@ -1016,25 +1017,20 @@ public class H_ConstraintsPerspective {
         			// An instance of kind CostPerspective is created. Basically, it is a JDialog that allows the user to assign 
             		// a fixed (deviation) cost to each activity, or to create specific cost models.
 	         		//
-	         		CostPerspective cst = new CostPerspective();
-             		Constants.setCostPerspective(cst); 
-             		 
+
+
+	         		//CostPerspective cst = new CostPerspective();        // version with Cost DFA import
+             		//Constants.setCostPerspective(cst); 
+             		CostPerspective3 cst3 = new CostPerspective3();      // version with patterns only
+
              		
-	         		//Generate the cost automata file .dot
-             		
-	         		Utilities.emptyFolder("cost_automata");
-             		
-             		//pattern: pattern1(acitivity_1, activity_2, cost_1, cost_2)
-             		
+	         		Utilities.emptyFolder("cost_automata");             		
              		Vector<Automaton> cost_automata_vector = new Vector<Automaton>();
-             		
-					//int conta_iterazioni = 0;
 
-             		for (String cost_model : cst.getCostModelTextArea().getText().split("\\n")) {
-						//conta_iterazioni++;
-						//System.out.println("ciclo numero: "+conta_iterazioni);
-
-	
+					for(int k=0; k < cst3.getPatternsListModel().size(); k++){
+						String cost_model = (String) cst3.getPatternsListModel().getElementAt(k); 	
+             		//for (String cost_model : cst.getCostModelTextArea().getText().split("\\n")) {
+						
              			Automaton automaton = null;
        	         		if(cost_model.startsWith("DFA{")) {
        	         			
@@ -1245,7 +1241,6 @@ public class H_ConstraintsPerspective {
        	         		cost_automata_vector.add(automaton);
 
              		}
-             		//System.out.println("numero cicli totale: "+conta_iterazioni);
              		/*
              		
              		//
